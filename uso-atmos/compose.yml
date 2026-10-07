@@ -1,0 +1,17 @@
+name: lambda26-uso-atmos
+
+services:
+  uso-atmos:
+    build: .
+    container_name: lambda26-uso-atmos
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: sleep infinity
+    networks:
+      - lambda26-kafka-net
+
+networks:
+  lambda26-kafka-net:
+    external: true
+    name: lambda26-kafka-net

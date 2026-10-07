@@ -1,0 +1,6 @@
+artifacts/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+secrets.h
+.env
