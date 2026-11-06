@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 secrets.h
 .env
+
+artifacts/
+.ipynb_checkpoints/
+*.parquet
