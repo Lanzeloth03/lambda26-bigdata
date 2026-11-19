@@ -1,0 +1,67 @@
+# Alertas EcoData U2 (S9). Se evalúan en Prometheus: http://localhost:49090/alerts
+groups:
+  - name: ecodata_pipeline
+    rules:
+      - alert: PushgatewayCaido
+        expr: up{job="pushgateway"} == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "Pushgateway no responde"
+          description: "Sin Pushgateway no llegan métricas de los jobs de Spark."
+
+      - alert: AireSinEventosNuevos
+        expr: (time() - push_time_seconds{job="lambda26_aire",instance="inferencia"} > 600) or absent(push_time_seconds{job="lambda26_aire",instance="inferencia"})
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "Aire: más de 10 min sin lote nuevo"
+          description: "El job de aire no procesa datos: fuente detenida o job caído. Mismo criterio que el semáforo rojo de Grafana."
+
+      - alert: ClimaSinEventosNuevos
+        expr: (time() - push_time_seconds{job="lambda26_clima",instance="inferencia"} > 600) or absent(push_time_seconds{job="lambda26_clima",instance="inferencia"})
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "Clima: más de 10 min sin lote nuevo"
+          description: "El job de clima no procesa datos: fuente detenida o job caído."
+
+      - alert: AireModeloNoSuperaPersistencia
+        expr: lambda26_aire_mejora_pct < 0
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Aire: el modelo no mejora a la persistencia"
+          description: "mejora_pct negativa: el modelo es peor que repetir la última hora. Revisar deriva y reentrenar."
+
+      - alert: ClimaModeloNoSuperaPersistencia
+        expr: lambda26_clima_mejora_pct < 0
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Clima: el modelo no mejora a la persistencia"
+          description: "mejora_pct negativa. Revisar deriva y reentrenar."
+
+      - alert: DescartesPorWatermarkCreciendo
+        expr: increase(lambda26_aire_filas_descartadas_watermark_total[30m]) > 0
+        for: 0m
+        labels: {severity: info}
+        annotations:
+          summary: "Aire: llegan eventos fuera del watermark (2 h)"
+          description: "Datos tardíos descartados. Esperado en la demo con --tardio; en producción indica retraso de la fuente."
+
+      - alert: EpisodioDeAire
+        expr: lambda26_aire_pm25_ultimo > lambda26_aire_umbral_p95
+        for: 0m
+        labels: {severity: info}
+        annotations:
+          summary: "Episodio de aire: PM2.5 sobre el p95 de entrenamiento"
+          description: "Evento de negocio aire.episodio (también publicado en atmos-negocio)."
+
+      - alert: HeladaPrevista
+        expr: lambda26_clima_temp_ultima < lambda26_clima_umbral_helada
+        for: 0m
+        labels: {severity: info}
+        annotations:
+          summary: "Helada: temperatura bajo el umbral"
+          description: "Evento de negocio clima.helada."

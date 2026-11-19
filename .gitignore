@@ -8,3 +8,5 @@ secrets.h
 artifacts/
 .ipynb_checkpoints/
 *.parquet
+
+site/

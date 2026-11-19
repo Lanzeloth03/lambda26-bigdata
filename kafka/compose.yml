@@ -6,7 +6,7 @@ services:
     container_name: lambda26-kafka
     restart: unless-stopped
     ports:
-      - "49092:49092"
+      - "127.0.0.1:49092:49092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -19,6 +19,12 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
     networks:
       lambda26-kafka-net:
         aliases:
@@ -31,9 +37,10 @@ services:
     command:
       - --kafka.server=kafka:9092
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     ports:
-      - "49308:9308"
+      - "127.0.0.1:49308:9308"
     networks:
       lambda26-kafka-net:
         aliases:
@@ -44,9 +51,16 @@ services:
     container_name: lambda26-kafka-ui
     restart: unless-stopped
     ports:
-      - "48085:8080"
+      - "127.0.0.1:48085:8080"
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
     environment:
       KAFKA_CLUSTERS_0_NAME: lambda26
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092

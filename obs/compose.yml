@@ -6,27 +6,58 @@ services:
     container_name: lambda26-prometheus
     restart: unless-stopped
     ports:
-      - "49090:9090"
+      - "127.0.0.1:49090:9090"
     volumes:
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - lambda26_prometheus_data:/prometheus
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9090/-/healthy >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
     networks:
       - lambda26-kafka-net
+
+  pushgateway:
+    image: prom/pushgateway:v1.11.0
+    container_name: lambda26-pushgateway
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:49091:9091"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9091/-/healthy >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 5s
+    networks:
+      lambda26-kafka-net:
+        aliases:
+          - pushgateway
 
   grafana:
     image: grafana/grafana:11.4.0
     container_name: lambda26-grafana
     restart: unless-stopped
     ports:
-      - "43000:3000"
+      - "127.0.0.1:43000:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - lambda26_grafana_data:/var/lib/grafana
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     networks:
       - lambda26-kafka-net
 
