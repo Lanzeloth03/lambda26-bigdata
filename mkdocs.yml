@@ -1,0 +1,54 @@
+site_name: EcoData Aire — Juliaca (Big Data, Proyecto Sello)
+site_description: Sistema Big Data Lambda de calidad del aire (PM2.5) en Juliaca — Unidades 1, 2 y 3
+site_author: Lanzeloth Vargas Marichi
+site_url: https://lanzeloth03.github.io/lambda26-bigdata/
+repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
+repo_name: Lanzeloth03/lambda26-bigdata
+
+theme:
+  name: material
+  language: es
+  palette:
+    primary: indigo
+    accent: amber
+  features:
+    - navigation.top
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - 1. Inicio: index.md
+  - 2. Instalación y ejecución: ejecucion.md
+  - 3. Uso del sistema: uso.md
+  - 4. Arquitectura: arquitectura.md
+  - 5. Módulos y funcionalidades: modulos.md
+  - 6. Datos: datos.md
+  - 7. Pruebas y evidencias:
+      - Pruebas y evidencias: pruebas.md
+      - Corridas de integración: evidencias/corridas.md
+      - Hardening (lista de comprobación): hardening.md
+      - No regresión y riesgos aceptados: noregresion-riesgos.md
+      - Bitácora de la revisión técnica: bitacora.md
+      - Demo end-to-end y plan B: demo.md
+  - 8. Equipo y aporte individual: equipo.md
+  - 9. Repositorio y estándares: repositorio.md
+  - 10. Limitaciones y mejoras: limitaciones.md
+  - Proyecto Sello:
+      - Brief técnico-analítico: brief.md
+      - Matriz de trazabilidad: trazabilidad.md
+      - Producto U1: u1-producto.md
+      - Producto U2: u2-producto.md
+      - Producto U3 (Producto Final): u3-producto.md
+      - Observabilidad y costos: observabilidad-costos.md
+      - Decisiones técnicas: decisiones.md
+      - Informe del proyecto: informe.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

@@ -1,8 +1,36 @@
-# lambda26-bigdata
+# lambda26-bigdata — EcoData Aire (Juliaca)
+
+[![Docs](https://github.com/Lanzeloth03/lambda26-bigdata/actions/workflows/docs.yml/badge.svg)](https://github.com/Lanzeloth03/lambda26-bigdata/actions/workflows/docs.yml)
+
+Sistema Big Data **Lambda** que pronostica el **PM2.5 de la próxima hora en Juliaca** mejor que la persistencia (MAE 0,4635 vs 0,6871 µg/m³ en batch; 0,422 vs 0,567 en streaming en vivo) y lo observa con Kafka, Spark Structured Streaming, Prometheus y Grafana.
+Curso Big Data, UPeU Juliaca, sección G1, 2026-2 · Autor: **Lanzeloth Vargas Marichi** · Docente: Abel Ángel Sullón Macalupú.
+
+📖 **Documentación completa (MkDocs):** <https://lanzeloth03.github.io/lambda26-bigdata/>
+
+> El dato es PM2.5/PM10 **modelado** (Open-Meteo/CAMS, ~45 km), no una estación: sirve para validar arquitectura y modelo, no para vigilancia sanitaria.
+
+## Arranque rápido (Windows, Docker Desktop)
+```bat
+copy .env.example .env
+scripts\levantar.cmd
+```
+Luego abre Jupyter (<http://localhost:4488>) → `13_integracion_dataops.ipynb` → *Restart & Run All* (dos veces) y mira Grafana (<http://localhost:43000>).
+
+| Unidad | Qué hay | Dónde |
+|---|---|---|
+| U1 Batch | notebooks S2–S4, Gold Parquet por mes, modelo | `u1-aire/`, `u1-aire_corrida/` |
+| U2 Streaming | Kafka → Spark → Pushgateway → Prometheus → Grafana, alertas | `s12-aire/`, `kafka/`, `obs/` |
+| U3 Integración | cuaderno con 19 compuertas + manifiesto, tablero, hardening | `u3-integracion/`, `scripts/`, `docs/` |
+
+Topics del repositorio: `campus-juliaca semestre-2026-2 linea-cdia tipo-ps bigdata seccion-g1 grupo-<n>-ecodata-aire`.
+
+---
+
+## Historial: pipeline ESP32/DHT11 (sesiones S6–S11)
 
 Pipeline Big Data en tiempo real del curso (UPeU): **datos reales de un ESP32 con sensor DHT11** que viajan por MQTT hasta Kafka y se procesan con Spark Structured Streaming.
 
-## Arquitectura
+### Arquitectura
 
 ```
 ESP32 + DHT11 --WiFi--> broker MQTT público --> puente (Python) --> Kafka --> Spark Structured Streaming --> Parquet
@@ -23,7 +51,7 @@ Contrato del evento (sin presión: el DHT11 no la mide y no se inventa):
 {"tipoEvento":"sensor.lectura","sensorId":"esp32-fisico-equipo01","temperatura":15.7,"humedad":36.0,"origen":"esp32-fisico","timestamp":1791384406000}
 ```
 
-## Cómo reproducirlo
+### Cómo reproducirlo
 
 1. Levantar la infraestructura:
    ```
@@ -42,7 +70,7 @@ Contrato del evento (sin presión: el DHT11 no la mide y no se inventa):
    ```
 5. Abrir Jupyter (token con `docker logs lambda26-pyspark`) y ejecutar `s08-streaming-estructurado/08_streaming_estructurado_autonoma.ipynb`.
 
-## Qué demuestra el notebook de la S8
+### Qué demuestra el notebook de la S8
 
 - Lectura en streaming con **esquema explícito** y evidencia de que los datos vienen del sensor físico.
 - Agregación por ventana fija de 20 s con **watermark de 10 s**, con el margen justificado midiendo la latencia real (p95).
@@ -51,12 +79,12 @@ Contrato del evento (sin presión: el DHT11 no la mide y no se inventa):
 - Comparación de **dos intervalos de disparo** (1 s y 6 s) con el `batchId` alcanzado en 15 s.
 - Salida en **Parquet con checkpoint**, verificada en dos corridas que acumulan; inspección de `offsets/`, `commits/` y `state/`.
 
-## Hallazgos
+### Hallazgos
 
 - Se detectó un **hueco de ~8 minutos** en las lecturas reales con una función de ventana sobre `offset`; los datos no llegaron tarde, se perdieron antes de Kafka.
 - Una agregación **sin deduplicar** cuenta un evento duplicado dos veces (`n = 2`).
 - Tras detener una consulta a mitad de un micro-lote, el checkpoint tenía `offsets/` un lote por delante de `commits/`; Spark lo reejecutó al reiniciar.
 
-## Seguridad
+### Seguridad
 
 Las credenciales de WiFi **no** están en el repositorio: el sketch trae `TU_WIFI` y `TU_CLAVE` como marcadores.
