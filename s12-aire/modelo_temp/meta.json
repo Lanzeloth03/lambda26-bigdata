@@ -1,0 +1,25 @@
+{
+  "persistencia_mae": 1.096336576989124,
+  "persistencia_diaria_mae": 0.6981682884945623,
+  "lineal_mae": 0.6319017772184087,
+  "gbt_mae": 0.5368773383112271,
+  "mejora_vs_persistencia_pct": 51.02987991282233,
+  "mejora_vs_diaria_pct": 23.102016067089156,
+  "n_train": 6988,
+  "n_test": 1747,
+  "features": [
+    "l0",
+    "d1",
+    "d3",
+    "d24",
+    "m24",
+    "hum",
+    "humd",
+    "viento",
+    "hs",
+    "hc"
+  ],
+  "test_desde": 1697774400000,
+  "unidad": "grados C",
+  "fuente": "Open-Meteo (temperature_2m, relative_humidity_2m, wind_speed_10m)"
+}

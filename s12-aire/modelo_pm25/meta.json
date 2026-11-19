@@ -1,0 +1,22 @@
+{
+  "persistencia_mae": 0.6871207784773903,
+  "lineal_mae": 0.7419191622745201,
+  "gbt_mae": 0.4733888743356669,
+  "mejora_vs_persistencia_pct": 31.105434566443726,
+  "umbral_relativo_p95": 10.5,
+  "n_train": 6988,
+  "n_test": 1747,
+  "features": [
+    "l0",
+    "d1",
+    "d3",
+    "d24",
+    "m24",
+    "pm10d",
+    "hs",
+    "hc"
+  ],
+  "test_desde": 1697774400000,
+  "unidad": "ug/m3",
+  "fuente": "Open-Meteo Air Quality (CAMS, modelado, ~45 km)"
+}

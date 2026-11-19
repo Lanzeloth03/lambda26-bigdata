@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1793283360129,"sparkVersion":"4.2.0","uid":"VectorAssembler_f330e36b36c6","paramMap":{"inputCols":["l0","d1","d3","d24","m24","hum","humd","viento","hs","hc"],"outputCol":"x"},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_f330e36b36c6__output"}}
