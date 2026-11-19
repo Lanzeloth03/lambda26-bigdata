@@ -1,0 +1,26 @@
+{
+  "dimension": "aire",
+  "objetivo": "PM2.5 hora siguiente (delta sobre l0)",
+  "features": [
+    "l0",
+    "d1",
+    "d3",
+    "d24",
+    "m24",
+    "hs",
+    "hc",
+    "pm10d"
+  ],
+  "ganador": "GBT depth=3",
+  "metricas": {
+    "RMSE": 1.0498,
+    "MAE": 0.4635,
+    "R2": 0.9261
+  },
+  "mae_persistencia": 0.6871,
+  "mejora_pct": 32.5,
+  "train": 6988,
+  "test": 1747,
+  "fecha_corte_test": "2023-10-20",
+  "entrenado": "2026-11-19 20:14:37"
+}

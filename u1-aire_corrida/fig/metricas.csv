@@ -1,0 +1,9 @@
+modelo,RMSE,MAE,R2
+Persistencia (baseline),1.5067,0.6871,0.8478
+Regresión lineal (reg=0),1.4185,0.7419,0.8651
+Ridge (L2),1.4374,0.7459,0.8615
+Elastic Net (L1+L2),1.4353,0.7094,0.8619
+Random Forest,1.0727,0.478,0.9229
+GBT depth=3,1.0498,0.4635,0.9261
+GBT depth=4,1.0656,0.4734,0.9239
+GBT depth=5,1.1322,0.4813,0.9141
