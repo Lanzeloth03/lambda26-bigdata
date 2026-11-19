@@ -27,7 +27,7 @@ echo [5/5] Topicos y salud...
 call scripts\crear_topicos.cmd
 call scripts\probar_salud.cmd || goto :fallo
 echo.
-echo LISTO. Lanza el job (ver docs/runbook.md, paso 3) o ejecuta el cuaderno 13_integracion_dataops.ipynb
+echo LISTO. Ejecuta el cuaderno 13_integracion_dataops.ipynb (ver docs/ejecucion.md)
 exit /b 0
 :fallo
 echo.

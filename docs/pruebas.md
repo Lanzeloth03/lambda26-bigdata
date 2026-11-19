@@ -32,6 +32,9 @@ El cuaderno `13_integracion_dataops.ipynb` ejecuta **19 compuertas** (6 previas,
 
 KPI con **p50 / p95** del error absoluto (no medias): el manifiesto guarda `err_abs_modelo_p50/p95` y `err_abs_persistencia_p50/p95`.
 
+## Corrida real en el laboratorio (2026-11-19, Docker Desktop, Kafka + Prometheus reales)
+Dos ejecuciones consecutivas del cuaderno 13 con `FUENTE=kafka`: **19/19 compuertas OK en ambas**, 168 eventos publicados a un topic propio, **143 horas evaluadas**, MAE del modelo **0,4551** vs persistencia **0,6524** (−30,2 %) en la ventana fija de dic-2023, p50/p95 del error absoluto 0,2665 / 1,5020, y las dos corridas **idénticas** en métrica. El valor de `mae_modelo` coincidió entre el job, el Pushgateway, Prometheus y el Parquet. Detalle en [Corridas de integración](evidencias/corridas.md).
+
 ## Verificación durante el desarrollo (sin Docker)
 Antes de entregar, el cuaderno se ejecutó **dos veces** con `FUENTE=archivos` y un Pushgateway/Prometheus simulados (mocks) en un entorno sin Docker: **19/19 compuertas OK** en ambas, métricas **idénticas** entre corridas (143 horas, mismo MAE y p95). Esa prueba valida la lógica del cuaderno, **no sustituye** la corrida real con Kafka, Pushgateway y Prometheus del laboratorio (ver corridas).
 

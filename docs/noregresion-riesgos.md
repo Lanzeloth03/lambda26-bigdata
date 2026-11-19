@@ -5,13 +5,13 @@ Regla: **después de cada cambio de hardening se repite la misma batería** (`pr
 
 | # | Cambio | Riesgo de regresión | Prueba | Dónde se probó | Resultado |
 |---|---|---|---|---|---|
-| C1 | Healthchecks en kafka, ui, prometheus, pushgateway, grafana | un `test` mal escrito deja el servicio *unhealthy* y bloquea `--wait` | `up -d --wait` y `docker ps` | YAML validado fuera de Docker; **ejecución en el laboratorio** | ver corridas |
-| C2 | `depends_on: service_healthy` | arranque más lento o bucle de espera | tiempo de `levantar.cmd` | laboratorio | ver corridas |
-| C3 | Grafana por variables | clave nueva no coincide con el volumen antiguo | login en <http://localhost:43000> | laboratorio | ver [Si algo falla](ejecucion.md) |
-| C4 | Pushgateway como servicio | choque de nombre con el contenedor manual | `levantar.cmd` retira el antiguo | laboratorio | ver corridas |
-| C5 | Puertos a `127.0.0.1` | algo accedía por la IP LAN | `probar_salud.cmd` (todo por `localhost`) | laboratorio | ver corridas |
+| C1 | Healthchecks en kafka, ui, prometheus, pushgateway, grafana | un `test` mal escrito deja el servicio *unhealthy* y bloquea `--wait` | `up -d --wait` y `docker ps` | Docker Desktop de la laptop, 2026-11-19 | ✔ Kafka, kafka-ui (exporter sin healthcheck) y los servicios de obs quedaron *healthy* y `--wait` terminó |
+| C2 | `depends_on: service_healthy` | arranque más lento o bucle de espera | `levantar.cmd` completo | Docker Desktop de la laptop | ✔ terminó en `LISTO`; Prometheus, Pushgateway y Grafana `OK` |
+| C3 | Grafana por variables | clave nueva no coincide con el volumen antiguo | login en <http://localhost:43000> | laboratorio | ⏳ `/api/health` OK; el inicio de sesión con clave nueva no se probó (ver [Si algo falla](ejecucion.md)) |
+| C4 | Pushgateway como servicio | choque de nombre con el contenedor manual | `levantar.cmd` retira el antiguo | Docker Desktop de la laptop | ✔ Pushgateway v1.11.0 del compose `OK` tras retirar el manual |
+| C5 | Puertos a `127.0.0.1` | algo accedía por la IP LAN | `probar_salud.cmd` (todo por `localhost`) | Docker Desktop de la laptop | ✔ 5 servicios `OK` con los puertos en `127.0.0.1` |
 | C6 | `--job` en `s12_streaming_aire.py` | cambiar el job por defecto rompería el tablero U2 | valor por defecto = `lambda26_aire`; corrida con `--job lambda26_aire_int` | **sandbox sin Docker** | ✔ job por defecto sin cambio; corrida con job propio OK (19/19) |
-| C7 | Cuaderno 13: umbral S3 | umbral mal calculado bloquea una corrida válida | corrida completa dos veces | sandbox sin Docker | ✔ tras corregir (H7): 143 horas, 2 corridas idénticas |
+| C7 | Cuaderno 13: umbral S3 | umbral mal calculado bloquea una corrida válida | corrida completa dos veces | sandbox sin Docker **y** laptop con Docker | ✔ tras corregir (H7): 143 horas, 2 corridas idénticas también con Kafka y Prometheus reales |
 
 **Criterio de aprobación:** `probar_salud` sin fallos **y** `n_evaluadas = 143`, `mae_modelo < mae_persistencia`, y el MAE de la corrida N igual al de la N−1.
 
