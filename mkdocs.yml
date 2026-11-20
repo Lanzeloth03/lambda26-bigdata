@@ -20,18 +20,8 @@ nav:
   - Guía de Proyecto Sello:
       - Brief técnico-analítico: brief.md
       - Matriz de trazabilidad: trazabilidad.md
-      - Arquitectura: arquitectura.md
-      - Datos: datos.md
-      - Módulos y funcionalidades: modulos.md
-      - Instalación y ejecución: ejecucion.md
-      - Uso del sistema: uso.md
-      - Pruebas y evidencias: pruebas.md
-      - Observabilidad y costos: observabilidad-costos.md
-      - Decisiones técnicas: decisiones.md
-      - Equipo y aporte individual: equipo.md
-      - Repositorio y estándares: repositorio.md
-      - Limitaciones y mejoras: limitaciones.md
       - Informe del proyecto: informe.md
+      - Equipo y aporte individual: equipo.md
   - 1. Arquitecturas Big Data y ETL batch distribuido:
       - Producto U1: u1-producto.md
       - S1 - Arquitectura Big Data: sesiones/S01.md

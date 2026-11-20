@@ -29,3 +29,4 @@ Un sistema Big Data con **arquitectura Lambda**:
 | Verificar que funciona | [Pruebas](pruebas.md), [Corridas](evidencias/corridas.md), [Hardening](hardening.md) |
 | Ver la demo | [Demo y plan B](demo.md) |
 | Ver el cumplimiento académico | [Brief](brief.md), [Matriz de trazabilidad](trazabilidad.md), [Informe](informe.md) |
+| Ver decisiones, equipo, repositorio y límites | [Decisiones](decisiones.md), [Equipo](equipo.md), [Repositorio](repositorio.md), [Limitaciones](limitaciones.md), [Observabilidad y costos](observabilidad-costos.md) |
