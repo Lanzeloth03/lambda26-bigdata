@@ -22,3 +22,13 @@ Se construyó un **pipeline batch completo** (Unidad 1) y un **sistema en tiempo
 2. **Unidad 2 (streaming):** eventos por Kafka, Spark Structured Streaming con ventanas y watermark, modelo que pronostica la hora siguiente, métricas en Prometheus y tablero en Grafana.
 
 Ambas unidades comparten la arquitectura Lambda y la misma fuente de datos (Open-Meteo, modelo CAMS).
+
+## Resultados medidos
+| Escenario | MAE modelo | MAE persistencia | Mejora |
+|---|---|---|---|
+| U1 · batch, prueba cronológica (1 747 h, año 2023) | **0,4635** µg/m³ | 0,6871 | **−32,5 %** |
+| U2 · streaming en vivo (761 h) | **0,422** µg/m³ | 0,567 | **−25,5 %** |
+| Integración · 19 compuertas (143 h) | **0,4551** µg/m³ | 0,6524 | **−30,2 %** |
+
+## Datos
+Año **2023** completo (8 760 h) para el pipeline batch y el entrenamiento; años **2024 y 2025** cargados a Kafka como histórico real; lecturas recientes por la API de Open-Meteo cada hora. Más de **27 000 mensajes** en los topics del broker. Ver [Datos y topics](u2/datos-y-topics.md).

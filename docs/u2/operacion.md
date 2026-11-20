@@ -48,7 +48,7 @@ Esta página reúne las decisiones operativas del pipeline de la Unidad 2 (dimen
 
 ## 5. Escalado
 
-El volumen de datos nuevos es mínimo (un evento por hora, menos de 1 KB cada uno). Medido en Kafka UI el 04/11/2026, los topics acumulan `atmos-aire` 12 845 mensajes (2 MB) y `atmos-negocio` 1 125 (220 KB). Por tanto una sola partición y un solo broker son suficientes. Ruta de crecimiento:
+El volumen de datos nuevos es mínimo (un evento por hora, menos de 1 KB cada uno). Medido en Kafka UI el 04/11/2026, los topics acumulan `atmos-aire` 12 845 mensajes (2 MB) y `atmos-negocio` 1 125 (220 KB). Tras cargar los años 2024 y 2025 el broker acumula alrededor de 27 000 mensajes, sin cambios de configuración: un solo broker sigue siendo suficiente. Por tanto una sola partición y un solo broker son suficientes. Ruta de crecimiento:
 
 | Si crece… | Qué se cambia |
 |---|---|

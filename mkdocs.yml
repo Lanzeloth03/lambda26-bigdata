@@ -28,7 +28,11 @@ nav:
       - Dimensión Aire (Lanzeloth): u2/dimension-aire.md
       - Operación, escalado y costos: u2/operacion.md
       - Contrato de eventos: u2/contrato-eventos.md
+      - Datos y topics: u2/datos-y-topics.md
+      - Módulos y métricas: u2/modulos.md
       - Observabilidad y alertas: u2/observabilidad-alertas.md
+      - Integración y compuertas: u2/integracion.md
+      - Puesta en marcha y demo: u2/puesta-en-marcha.md
       - Preparación S12: u2/s12-preparacion.md
       - Evidencias: u2/evidencias.md
       - Limitaciones y mejoras: u2/limitaciones.md
@@ -37,6 +41,10 @@ markdown_extensions:
   - tables
   - admonition
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.details
   - attr_list

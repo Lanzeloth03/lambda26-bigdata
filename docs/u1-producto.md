@@ -23,11 +23,12 @@ Open-Meteo → Limpieza + Calidad → Parquet particionado (Gold) → Spark MLli
 ## 5. Resultados principales
 
 ### Dimensión Aire (Lanzeloth)
-- Registros: 2 328 por hora (2 324 limpios), del 28/05/2026 al 01/09/2026
+- Datos: año **2023** completo, 8 760 horas, sin huecos ni duplicados; Gold en Parquet particionado por `mes` (12 particiones)
 - Objetivo: PM2.5 a +1 h
-- Mejor modelo: regresión lineal (Spark MLlib)
-- Métricas en prueba: RMSE 1,891 | R² 0,891 | MAE 1,321 (persistencia: RMSE 1,944 | MAE 1,065)
-- Riesgo: 99,3 % Bajo, 4 horas Moderado, 12 horas Alto
+- Partición cronológica: 6 988 h de entrenamiento y 1 747 h de prueba (desde 2023-10-20)
+- Mejor modelo: **GBT de profundidad 3** (Spark MLlib): MAE **0,4635** frente a 0,6871 de la persistencia (**−32,5 %**), RMSE 1,0498, R² 0,9261
+- Otros modelos (MAE): regresión lineal 0,7419 · Ridge 0,7459 · Elastic Net 0,7094 · Random Forest 0,4780 · GBT profundidad 4 0,4734 · GBT profundidad 5 0,4813
+- Primera corrida con 4 meses de 2026 (2 328 h): ganó la regresión lineal; se conserva en [Dimensión Aire (Lanzeloth)](dimension-lanzeloth.md)
 
 ## 6. Conclusión
-Se completó el pipeline batch de la Unidad 1 para la dimensión Aire. La base está lista para incorporar streaming e inferencia en tiempo real en la Unidad 2.
+Se completó el pipeline batch de la Unidad 1 para la dimensión Aire, con un año completo de histórico. La base está lista para incorporar streaming e inferencia en tiempo real en la Unidad 2.

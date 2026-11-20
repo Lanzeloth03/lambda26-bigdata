@@ -67,6 +67,9 @@ El procesamiento sí; la fuente es horaria y modelada. Lo decimos abiertamente.
 **¿Por qué cambiaron la pregunta?**
 Porque la norma peruana nunca se excedió en 2023: no había casos positivos. Pasamos a un pronóstico medible en todas las horas.
 
+**¿Por qué hay más mensajes en Kafka que horas de 2023?**
+Además de 2023 se cargaron los años 2024 y 2025 como histórico real, cada uno en su topic (`atmos-aire-hist-2024` y `atmos-aire-hist-2025`), y el demo y las corridas de integración tienen sus propios topics. En total el broker acumula alrededor de 27 000 mensajes.
+
 **¿Los números del tablero son reales?**
 El MAE sí es comparable. Los contadores (eventos, horas, descartadas) están inflados por los replays de la demo.
 
@@ -86,7 +89,7 @@ Hoy es un nodo y un broker. Los criterios de escalado están en [operacion.md](o
 | 5. Costos y escalado | 8 % | [operacion.md](operacion.md) | A |
 | 6. Salidas BI/ML | 12 % | Dashboard Grafana | A |
 | 7. Inferencia validada | 12 % | MAE modelo vs persistencia | A |
-| 8. Sustentación | 20 % | Depende de cada integrante | **Practicar** |
+| 8. Sustentación | 20 % | Este material y la demo ([Puesta en marcha](puesta-en-marcha.md)) | **Practicar** |
 
 ## 4. Decisiones propias
 1. Datos reales de una API pública, no simulados.
