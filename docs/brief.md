@@ -13,7 +13,7 @@
 | Docente | Abel Ángel Sullón Macalupú |
 | Repositorio | <https://github.com/Lanzeloth03/lambda26-bigdata> |
 | Documentación publicada | Sitio MkDocs de este repositorio (`mkdocs.yml`) |
-| Topics del repositorio | Lista en [Repositorio y estándares](repositorio.md). **Estado: configurar en GitHub** (incluye `grupo-<n>-ecodata-aire`) |
+| Topics del repositorio | **Estado: configurar en GitHub** (incluye `grupo-<n>-ecodata-aire`) |
 | Alcance de la entrega | Unidad 1 (batch) y Unidad 2 (streaming) |
 
 | Integrante | Rol / énfasis |
@@ -32,7 +32,7 @@
 | 4 | Variable de interés | Concentración de PM2.5 en la hora siguiente |
 | 5 | Pregunta central | ¿Un modelo entrenado con las últimas horas de PM2.5 y PM10 predice el PM2.5 de la próxima hora mejor que repetir la última hora (persistencia), tanto en batch como en vivo? |
 | 6 | Usuarios y actores | **Operador / autoridad ambiental local** (recibe el aviso de episodio); **analista de datos** (consulta tendencias y MAE); **población sensible** (beneficiaria de la alerta); **docente-revisor** (evalúa el pipeline) |
-| 7 | Arquitectura | **Lambda**: capa batch (histórico anual, Bronze→Silver→Gold) y capa de velocidad (eventos por Kafka + Spark Structured Streaming) con el **mismo modelo** y las mismas features. Ver [Arquitectura](arquitectura.md) |
+| 7 | Arquitectura | **Lambda**: capa batch (histórico anual, Bronze→Silver→Gold) y capa de velocidad (eventos por Kafka + Spark Structured Streaming) con el **mismo modelo** y las mismas features. Ver [Arquitectura](u1/arquitectura.md) |
 | 8 | ¿Por qué Lambda y no Kappa? | El curso pide una capa batch con histórico reproducible (U1) y otra de flujo continuo (U2) comparables lado a lado. Con Lambda se mide el MAE de prueba del batch frente al MAE en vivo. Kappa reprocesaría todo desde el log y no permitiría esa comparación independiente |
 | 9 | Fuente batch | Open-Meteo Air Quality (modelo CAMS), año 2023, 8 760 h (`aq_juliaca_2023.json`) |
 | 10 | Fuente de eventos | La misma serie reproducida evento a evento hacia Kafka (`replay`), más la API en vivo cada hora. **Dato modelado (CAMS, rejilla ≈ 45 km), no una estación física: funciona como «sensor virtual»** |
@@ -103,7 +103,7 @@
 | Costo y escalado de referencia | Exactly-once de punta a punta (se ofrece *al menos una vez* con resultados idempotentes) |
 | | Despliegue en la nube |
 
-**Costo de referencia.** Entorno actual (laptop, Docker): US$ 0. Plantilla del curso 3 × t3.medium: US$ 91,15/mes. Alternativa ajustada al volumen, 1 × t3.medium: ≈ US$ 30,4/mes. Son cifras de referencia a verificar con la calculadora del proveedor. Detalle en [Observabilidad y costos](observabilidad-costos.md).
+**Costo de referencia.** Entorno actual (laptop, Docker): US$ 0. Plantilla del curso 3 × t3.medium: US$ 91,15/mes. Alternativa ajustada al volumen, 1 × t3.medium: ≈ US$ 30,4/mes. Son cifras de referencia a verificar con la calculadora del proveedor. Detalle en [Operación, escalado y costos](u2/operacion.md).
 
 **Pendiente para siguientes sesiones.** Volumen persistente para Kafka, `/metrics` propio en lugar de Pushgateway.
 
@@ -149,19 +149,19 @@
 | La fuente es horaria: el procesamiento es continuo, el dato no es de baja latencia | Se dice así en la sustentación |
 | Pushgateway congela la última métrica si el job muere | Semáforo de frescura y alerta de 10 min sin lote; mejora futura: `/metrics` propio |
 | Contadores de la demo incluyen reproducciones (replay) | El MAE es lo comparable; los contadores no equivalen a horas distintas |
-| Kafka sin volumen persistente (un solo broker) | Los datos se pierden al recrear el contenedor; mejora planificada |
-| Un solo nodo y un broker | Criterios de escalado en [Observabilidad y costos](observabilidad-costos.md) |
+| Kafka sin volumen persistente (un solo broker); ver [Limitaciones](u2/limitaciones.md) | Los datos se pierden al recrear el contenedor; mejora planificada |
+| Un solo nodo y un broker | Criterios de escalado en [Operación, escalado y costos](u2/operacion.md) |
 
 ### 3.8 Dónde verificar cada afirmación
 
 | Afirmación | Evidencia en el repositorio |
 |---|---|
-| Gold particionado por mes y GBT ganador | [Producto U1](u1-producto.md), `u1-aire_corrida/` |
-| Streaming con ventana, watermark y checkpoint | [Producto U2](u2-producto.md), `s12-aire/scripts/s12_streaming_aire.py` |
-| Métricas en vivo y alertas | Grafana `S12 – Calidad del aire`, `obs/prometheus/alerts.yml` |
-| Integración con 19 compuertas | `u3-integracion/` (manifiesto JSON por corrida) |
-| Costos y escalado | [Observabilidad y costos](observabilidad-costos.md) |
-| Resultados y decisiones | [Informe](informe.md), [Pruebas](pruebas.md), [Decisiones](decisiones.md) |
+| Gold particionado por mes y GBT ganador | [Producto U1](u1/producto.md), `u1-aire_corrida/` |
+| Streaming con ventana, watermark y checkpoint | [Producto U2](u2/producto.md), `s12-aire/scripts/s12_streaming_aire.py` |
+| Métricas en vivo y alertas | Grafana `S12 – Calidad del aire`, [Observabilidad y alertas](u2/observabilidad.md) |
+| Integración con 19 compuertas | [Evidencias](u2/evidencias.md), `u3-integracion/manifiestos/` |
+| Costos y escalado | [Operación, escalado y costos](u2/operacion.md) |
+| Resultados U1 y evidencias de U2 | [Resultados](u1/resultados.md), [Evidencias](u2/evidencias.md) |
 
 ### 3.9 Preguntas probables y respuesta corta
 

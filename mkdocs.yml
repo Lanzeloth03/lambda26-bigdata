@@ -1,5 +1,5 @@
-site_name: EcoData Aire — Juliaca (Big Data, Proyecto Sello)
-site_description: Sistema Big Data Lambda de calidad del aire (PM2.5) en Juliaca — Unidades 1, 2 y 3
+site_name: EcoData Aire — Unidad 1 y 2
+site_description: Sistema Big Data Lambda de calidad del aire (PM2.5) en Juliaca — Unidades 1 y 2
 site_author: Lanzeloth Vargas Marichi
 site_url: https://lanzeloth03.github.io/lambda26-bigdata/
 repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
@@ -13,38 +13,34 @@ theme:
     accent: amber
   features:
     - navigation.top
+    - navigation.sections
     - content.code.copy
 
-nav:
-  - Inicio: index.md
-  - Guía de Proyecto Sello:
-      - Brief técnico-analítico: brief.md
-      - Matriz de trazabilidad: trazabilidad.md
-      - Informe del proyecto: informe.md
-      - Equipo y aporte individual: equipo.md
-  - 1. Arquitecturas Big Data y ETL batch distribuido:
-      - Producto U1: u1-producto.md
-      - S1 - Arquitectura Big Data: sesiones/S01.md
-      - S2 - Fundamentos PySpark: sesiones/S02.md
-      - S3 - Procesamiento y calidad de datos: sesiones/S03.md
-      - S4 - ML distribuido con MLlib: sesiones/S04.md
-      - S5 - Evaluación de la Unidad I: sesiones/S05.md
-  - 2. Sistema Big Data en tiempo real:
-      - Producto U2: u2-producto.md
-      - S6 - Ingesta de eventos empresariales: sesiones/S06.md
-      - S7 - Ingesta de eventos IoT/sensores: sesiones/S07.md
-      - S8 - Streaming con Spark: sesiones/S08.md
-      - S9 - Observabilidad con Grafana y costos: sesiones/S09.md
-      - S10 - Series de tiempo e inferencia: sesiones/S10.md
-      - S11 - BI/ML distribuido con Spark: sesiones/S11.md
-      - S12 - Evaluación de la Unidad II: sesiones/S12.md
-
 markdown_extensions:
-  - tables
   - admonition
-  - attr_list
+  - tables
+  - toc:
+      permalink: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Inicio: index.md
+  - Brief técnico-analítico: brief.md
+  - Producto Unidad 1:
+      - Producto U1: u1/producto.md
+      - Arquitectura: u1/arquitectura.md
+      - Dimensión Aire: u1/dimension-aire.md
+      - Resultados: u1/resultados.md
+  - Producto Unidad 2:
+      - Producto U2 (resumen): u2/producto.md
+      - Dimensión Aire: u2/dimension-aire.md
+      - Operación, escalado y costos: u2/operacion.md
+      - Contrato de eventos: u2/contrato-eventos.md
+      - Observabilidad y alertas: u2/observabilidad.md
+      - Preparación S12: u2/preparacion-s12.md
+      - Evidencias: u2/evidencias.md
+      - Limitaciones y mejoras: u2/limitaciones.md
