@@ -1,11 +1,10 @@
 # 8. Equipo y aporte individual
 
-El equipo EcoData nació con dos integrantes. Por indicación del docente, **cada integrante construye de extremo a extremo su propia dimensión** y la sustenta por separado.
+Por indicación del docente, **cada integrante construye de extremo a extremo su propia dimensión** y la sustenta por separado. Esta dimensión (Aire) es de autoría individual.
 
 | Integrante | Dimensión | Repositorio |
 |---|---|---|
 | **Lanzeloth Vargas Marichi** | **Aire** (PM2.5/PM10, Open-Meteo CAMS, Juliaca) | este repositorio |
-| Alahin Reyme Ticona Veliz | Clima (temperatura) | repositorio propio |
 
 ## Aporte individual de Lanzeloth (verificable)
 | Unidad | Entregable | Evidencia en el repositorio |

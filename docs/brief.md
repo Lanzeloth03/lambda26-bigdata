@@ -70,7 +70,7 @@
 
 | # | Ítem | Contenido |
 |---|---|---|
-| 11 | Combinación con otras dimensiones | Por definir (Clima se trabaja de forma independiente; correlación aire–temperatura es mejora futura) |
+| 11 | Combinación con otras dimensiones | Por definir (correlación aire–temperatura es una mejora futura) |
 | 12 | Requisitos | Ver lista siguiente |
 
 **Requisitos del sistema**

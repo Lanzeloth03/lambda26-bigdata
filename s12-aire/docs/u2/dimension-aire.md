@@ -18,7 +18,7 @@ Open-Meteo Air Quality API, datos **modelados CAMS** en grilla de ~45 km (lat �
 |---|---|
 | `ventanas` | Ventana fija de **6 h** + **watermark de 2 h** (append): n, PM2.5 prom/máx, PM10 prom, horas sobre el umbral. |
 | `inferencia` (foreachBatch) | Features de las últimas 24 h → modelo MLlib → predicción de PM2.5 a +1 h; cuando llega la hora real se calcula el error y se compara con persistencia. Episodios → `atmos-negocio`. |
-| métricas | Pushgateway `lambda26_aire_*` → Prometheus → Grafana (`dashboard_s12_ecodata.json`, sección Aire). |
+| métricas | Pushgateway `lambda26_aire_*` → Prometheus → Grafana (`dashboard_s12_aire.json`). |
 
 Contrato del evento: `{"tipoEvento":"aire.lectura","sensorId":"openmeteo-cams-juliaca","pm25":6.5,"pm10":9.4,"origen":"openmeteo-replay|openmeteo-cams|demo-tardio","timestamp":<ms de la hora del dato>}`.
 

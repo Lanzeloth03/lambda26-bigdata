@@ -223,7 +223,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "time() - push_time_seconds{job=~\"lambda26_aire|lambda26_clima\",instance=\"inferencia\"}",
+     "expr": "time() - push_time_seconds{job=~\"lambda26_aire\",instance=\"inferencia\"}",
      "refId": "A",
      "legendFormat": "{{job}}"
     }

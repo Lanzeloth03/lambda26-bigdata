@@ -18,7 +18,7 @@
 2. **U3 – Integración Aire** (`u3-integracion/grafana/dashboard_u3_integracion.json`): 5 paneles de la última corrida (MAE modelo vs persistencia, mejora %, horas evaluadas, compuertas OK/total, duración).
 
 ## Alertas (Prometheus → <http://localhost:49090/alerts>)
-`PushgatewayCaido`, `AireSinEventosNuevos`, `AireModeloNoSuperaPersistencia`, `DescartesPorWatermarkCreciendo`, `EpisodioDeAire` (+ equivalentes de clima del equipo).
+`PushgatewayCaido`, `AireSinEventosNuevos`, `AireModeloNoSuperaPersistencia`, `DescartesPorWatermarkCreciendo`, `EpisodioDeAire`.
 
 ## Estimación de costos
 !!! info "Precios de referencia"
