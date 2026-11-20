@@ -23,4 +23,4 @@ El checkpoint (`_ckpt/ventanas`, `_ckpt/inferencia`) permite reanudar sin duplic
 * **En vivo** (replay de dic-2023 + últimas horas de la API, fuera de muestra): **0,422 vs 0,567 (−25,5 %)**, 761 h evaluadas.
 
 ## Observabilidad
-Tablero Grafana con estado del job (segundos desde el último lote), PM2.5 y predicción, MAE modelo vs persistencia, watermark y descartes. Ocho alertas en `obs/prometheus/alerts.yml`. Detalle y costos: [Observabilidad y costos](observabilidad-costos.md).
+Tablero Grafana con estado del job (segundos desde el último lote), PM2.5 y predicción, MAE modelo vs persistencia, watermark y descartes. Cinco alertas en `obs/prometheus/alerts.yml`. Detalle y costos: [Observabilidad y costos](observabilidad-costos.md).

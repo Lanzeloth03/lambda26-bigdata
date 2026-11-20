@@ -25,7 +25,7 @@ S2 (transformaciones perezosas), S3 (calidad: 0 nulos, 0 duplicados, 0 negativos
 Productor Python → `atmos-aire`; Spark: consulta de ventanas y consulta de inferencia (`foreachBatch`), evento de negocio `aire.episodio`. Resultado en vivo: MAE 0,422 vs 0,567 (761 h). Detalle: [Producto U2](u2-producto.md).
 
 ## 9. Observabilidad y costos
-Métricas `lambda26_aire_*`, 2 tableros, 8 alertas; costo de referencia ≈ US$ 30/mes en una VM mínima. [Observabilidad y costos](observabilidad-costos.md).
+Métricas `lambda26_aire_*`, 2 tableros, 5 alertas; costo de referencia ≈ US$ 30/mes en una VM mínima. [Observabilidad y costos](observabilidad-costos.md).
 
 ## 10. Resultados BI/ML
 | Modelo | MAE test (µg/m³) |

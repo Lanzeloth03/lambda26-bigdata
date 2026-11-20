@@ -8,7 +8,7 @@
 | 3 | Salida en Parquet particionada | Gold por `mes` | [Datos](datos.md) |
 | 4 | Ingesta con Kafka | `atmos-aire`, `atmos-negocio` | `openmeteo_a_kafka.py` |
 | 5 | Streaming con ventanas y watermark | 6 h / 2 h | `s12_streaming_aire.py` |
-| 6 | Observabilidad y costos | Prometheus, Grafana, 8 alertas | [Observabilidad y costos](observabilidad-costos.md) |
+| 6 | Observabilidad y costos | Prometheus, Grafana, 5 alertas | [Observabilidad y costos](observabilidad-costos.md) |
 | 7 | Modelo ML / series de tiempo | GBT vs persistencia | [Pruebas](pruebas.md) |
 | 8 | **DataOps/DevOps** | healthchecks, `service_healthy`, `.env`, compuertas, manifiesto | [Hardening](hardening.md), cuaderno 13 |
 | 9 | **Revisión técnica final** | checklist, no regresión, riesgos aceptados | [No regresión y riesgos](noregresion-riesgos.md), [Bitácora](bitacora.md) |
