@@ -56,7 +56,7 @@ En este periodo (invierno seco) el aire de Juliaca fue mayormente limpio y los e
 PM2.5 ≥ 25 µg/m³ (Moderado) y ≥ 50 µg/m³ (Alto). En la Unidad 2 se complementan con un umbral relativo al percentil 95 de la serie reciente.
 
 ## Aporte al equipo
-Esta dimensión entrega la capa de contaminación y los criterios de alerta. Junto con la dimensión climática de Alahin, forma la base del sistema de alerta temprana que se potencia en la Unidad 2 con streaming (Kafka, Spark Structured Streaming y Grafana).
+Esta dimensión entrega la capa de contaminación y los criterios de alerta. Es la base del sistema de alerta temprana que se potencia en la Unidad 2 con streaming (Kafka, Spark Structured Streaming y Grafana).
 
 ## Reproducción
 Script: `s12/entrena_aire_u1.py` (Spark MLlib). Resultados guardados en `s12/aire_u1_metricas.json`.

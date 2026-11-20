@@ -1,7 +1,7 @@
 # Observabilidad y alertas (S9)
 
 ## Cadena
-Spark (2 jobs) → **Pushgateway** → **Prometheus** (scrape cada 15 s, `honor_labels: true`) → **Grafana** (`lambda26-s12-ecodata`) y **alertas** (`alerts.yml`).
+Spark → **Pushgateway** → **Prometheus** (scrape cada 15 s, `honor_labels: true`) → **Grafana** (`lambda26-s12-aire`) y **alertas** (`alerts.yml`).
 
 ## Métricas por dimensión
 | Tipo | Métrica | Dónde |
@@ -11,16 +11,16 @@ Spark (2 jobs) → **Pushgateway** → **Prometheus** (scrape cada 15 s, `honor_
 | Throughput | `input_rows_per_second` | Panel *Estado y descartes del watermark* |
 | Calidad del modelo | `mae_modelo`, `mae_persistencia`, `mejora_pct` | Panel *Error: modelo vs persistencia* |
 | Streaming | `filas_descartadas_watermark_total`, `estado_filas` | Panel de watermark |
-| Negocio | `episodios_total`, `heladas_total` | Paneles de episodios |
+| Negocio | `episodios_total` | Paneles de episodios |
 
 ## Alertas (`obs/prometheus/alerts.yml`)
 | Alerta | Condición | Severidad |
 |---|---|---|
 | `PushgatewayCaido` | Pushgateway inaccesible 1 min | crítica |
-| `AireSinEventosNuevos` / `ClimaSinEventosNuevos` | > 10 min sin lote | advertencia |
-| `AireModeloNoSuperaPersistencia` / `Clima…` | `mejora_pct < 0` por 10 min | advertencia |
+| `AireSinEventosNuevos` | > 10 min sin lote | advertencia |
+| `AireModeloNoSuperaPersistencia` | `mejora_pct < 0` por 10 min | advertencia |
 | `DescartesPorWatermarkCreciendo` | aparecen descartes | informativa |
-| `EpisodioDeAire` / `HeladaPrevista` | evento de negocio activo | informativa |
+| `EpisodioDeAire` | evento de negocio activo | informativa |
 
 ## Correlación para el jurado
 1. Detén la fuente (o el job): la **frescura** sube, el **semáforo** pasa a rojo y a los 10 min se dispara `AireSinEventosNuevos`.

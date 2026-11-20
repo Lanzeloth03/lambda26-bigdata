@@ -1,12 +1,12 @@
 # Operación: ingesta, alertas, observabilidad, escalado y costos
 
-Esta página reúne las decisiones operativas del pipeline de la Unidad 2 (aire y clima). Lo que ya está implementado se indica como tal; lo que es una propuesta de mejora se marca como **propuesta**.
+Esta página reúne las decisiones operativas del pipeline de la Unidad 2 (dimensión Aire). Lo que ya está implementado se indica como tal; lo que es una propuesta de mejora se marca como **propuesta**.
 
 ## 1. Ingesta con Kafka
 
 | Elemento | Decisión implementada |
 |---|---|
-| Topics | `atmos-aire` y `atmos-clima` (datos), `atmos-negocio` (eventos `aire.episodio` y `clima.helada`) |
+| Topics | `atmos-aire` (datos) y `atmos-negocio` (eventos `aire.episodio`) |
 | Productor | Script Python (`kafka-python`) que lee Open-Meteo y publica un evento JSON por hora |
 | Clave del mensaje | `sensorId`, para mantener el orden de una misma fuente |
 | Confirmación | `acks="all"`: el productor espera la confirmación del broker antes de dar el envío por bueno |
@@ -22,20 +22,19 @@ Esta página reúne las decisiones operativas del pipeline de la Unidad 2 (aire 
 | Evento | Regla | Umbral |
 |---|---|---|
 | `aire.episodio` | PM2.5 por encima del percentil 95 del histórico de entrenamiento | p95 relativo (se guarda con el modelo) |
-| `clima.helada` | Temperatura por debajo del umbral configurable | `--umbral-helada` |
 
 ### Umbrales operativos: latencia, throughput y errores
 | Dimensión operativa | Métrica en Grafana | Umbral |
 |---|---|---|
 | Latencia / frescura | «Segundos desde el último push» (`time() - push_time_seconds`) | Verde < 120 s · naranja ≥ 120 s · rojo ≥ 600 s (implementado en el tablero) |
-| Throughput | «Eventos procesados» (`lambda26_*_eventos_total`) | Esperado: 1 evento por hora y por dimensión. Si el contador no crece durante más de 2 horas, la fuente o el productor están caídos (**propuesta**) |
+| Throughput | «Eventos procesados» (`lambda26_*_eventos_total`) | Esperado: 1 evento por hora. Si el contador no crece durante más de 2 horas, la fuente o el productor están caídos (**propuesta**) |
 | Errores | «Filas descartadas por watermark» y estado de la consulta | Cualquier valor mayor que 0 se revisa; el valor sube a propósito con el evento `demo-tardio` |
 
-**Implementado y verificado (04/11/2026):** ocho reglas de Prometheus en `s12/operacion/prometheus/alerts.yml`, cargadas con `rule_files` y visibles en `http://localhost:49090/alerts`. Las dos de frescura (`AireSinEventosNuevos`, `ClimaSinEventosNuevos`) usan `absent()` para disparar también cuando el job nunca empujó métricas. Se comprobó el ciclo completo: al dejar de llegar datos la frescura superó 600 s, el semáforo pasó a rojo y las dos alertas pasaron a *Firing*; al publicar de nuevo se resolvieron. Detalle y lista completa en [Observabilidad y alertas](observabilidad-alertas.md).
+**Implementado y verificado (04/11/2026):** cinco reglas de Prometheus en `s12/operacion/prometheus/alerts.yml`, cargadas con `rule_files` y visibles en `http://localhost:49090/alerts`. La de frescura (`AireSinEventosNuevos`) usa `absent()` para disparar también cuando el job nunca empujó métricas. Se comprobó el ciclo completo: al dejar de llegar datos la frescura superó 600 s, el semáforo pasó a rojo y la alerta pasó a *Firing*; al publicar de nuevo se resolvieron. Detalle y lista completa en [Observabilidad y alertas](observabilidad-alertas.md).
 
 ## 3. Observabilidad
 
-- **Métricas:** cada consulta de Spark publica sus indicadores en Pushgateway con el prefijo `lambda26_` (eventos, MAE del modelo y de la persistencia, episodios, filas descartadas, estado y marca del watermark). Prometheus los recoge y Grafana los muestra en un solo tablero con las secciones de aire y clima.
+- **Métricas:** cada consulta de Spark publica sus indicadores en Pushgateway con el prefijo `lambda26_` (eventos, MAE del modelo y de la persistencia, episodios, filas descartadas, estado y marca del watermark). Prometheus los recoge y Grafana los muestra en un solo tablero con la sección de aire.
 - **Progreso de la consulta:** un `StreamingQueryListener` lee el avance de cada lote (`numRowsDroppedByWatermark`, filas en estado, watermark) y lo envía como métrica.
 - **Logs:** Spark en nivel `WARN` y mensajes de cada script por consola. Los logs en formato JSON con campos fijos (nivel, componente, id de lote) son una **mejora pendiente**; por ahora la información estructurada viaja en las métricas.
 - **Kafka:** inspección de topics y mensajes con Kafka UI.
@@ -49,7 +48,7 @@ Esta página reúne las decisiones operativas del pipeline de la Unidad 2 (aire 
 
 ## 5. Escalado
 
-El volumen de datos nuevos es mínimo (un evento por hora y dimensión, menos de 1 KB cada uno). Medido en Kafka UI el 04/11/2026, los topics acumulan `atmos-aire` 12 845 mensajes (2 MB), `atmos-clima` 12 779 (3 MB) y `atmos-negocio` 1 125 (220 KB); la cifra incluye los replays de la demo, no horas distintas de datos reales. Por tanto una sola partición y un solo broker son suficientes. Ruta de crecimiento:
+El volumen de datos nuevos es mínimo (un evento por hora, menos de 1 KB cada uno). Medido en Kafka UI el 04/11/2026, los topics acumulan `atmos-aire` 12 845 mensajes (2 MB) y `atmos-negocio` 1 125 (220 KB). Por tanto una sola partición y un solo broker son suficientes. Ruta de crecimiento:
 
 | Si crece… | Qué se cambia |
 |---|---|
@@ -68,4 +67,4 @@ El volumen de datos nuevos es mínimo (un evento por hora y dimensión, menos de
 | Referencia de la plantilla del curso: 3 × t3.medium | US$ 91,15 | Margen para separar Kafka, Spark y observabilidad |
 | Alternativa ajustada al volumen: 1 × t3.medium | ≈ US$ 30,4 | Un tercio de la referencia (91,15 ÷ 3); alcanza para el volumen actual |
 
-**Justificación:** con 48 eventos al día, un clúster de tres nodos o un servicio gestionado de Kafka y Spark estaría sobredimensionado. Se recomienda empezar con una sola máquina y escalar por partes, según la tabla anterior, cuando aumente el número de estaciones. Las cifras son de referencia (precios bajo demanda); deben verificarse en la calculadora del proveedor antes de contratar.
+**Justificación:** con 24 eventos al día, un clúster de tres nodos o un servicio gestionado de Kafka y Spark estaría sobredimensionado. Se recomienda empezar con una sola máquina y escalar por partes, según la tabla anterior, cuando aumente el número de estaciones. Las cifras son de referencia (precios bajo demanda); deben verificarse en la calculadora del proveedor antes de contratar.

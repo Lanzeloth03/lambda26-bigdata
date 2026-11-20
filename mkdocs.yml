@@ -1,6 +1,6 @@
 site_name: EcoData - Unidad 1 y 2
-site_description: Sistema de Alerta Temprana de Calidad del Aire y Clima - Juliaca
-site_author: Equipo EcoData
+site_description: Sistema de Alerta Temprana de Calidad del Aire - Juliaca
+site_author: Lanzeloth Vargas Marichi
 site_url: https://lanzeloth03.github.io/lambda26-bigdata/
 repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
 repo_name: Lanzeloth03/lambda26-bigdata
@@ -20,14 +20,12 @@ nav:
   - Producto Unidad 1:
       - Producto U1: u1-producto.md
       - Arquitectura: arquitectura.md
-      - Dimensión Clima (Alahin): dimension-alahin.md
       - Dimensión Aire (Lanzeloth): dimension-lanzeloth.md
       - Dimensión Aire ampliada (Lanzeloth): dimension-lanzeloth-ampliada.md
       - Resultados: resultados.md
   - Producto Unidad 2:
       - Producto U2 (resumen): u2/index.md
       - Dimensión Aire (Lanzeloth): u2/dimension-aire.md
-      - Dimensión Clima (Alahin): u2/dimension-clima.md
       - Operación, escalado y costos: u2/operacion.md
       - Contrato de eventos: u2/contrato-eventos.md
       - Observabilidad y alertas: u2/observabilidad-alertas.md

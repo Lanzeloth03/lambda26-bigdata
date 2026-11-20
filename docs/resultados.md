@@ -6,11 +6,6 @@
 - Duplicados = 0
 - PartitionFilters verificado
 
-## Dimensión Clima (Alahin)
-- 26 304 registros
-- RandomForest: RMSE 1.4351 | R² 0.9180 | MAE 1.1220
-- Modelo guardado en `/opt/ecodata/models/clima_rf_model`
-
 ## Dimensión Aire (Lanzeloth)
 - 2 328 registros por hora (28/05/2026 a 01/09/2026); 2 324 tras la limpieza; 0 duplicados
 - Regresión lineal (mejor): RMSE 1,891 | R² 0,891 | MAE 1,321

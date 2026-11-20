@@ -1,25 +1,24 @@
 # EcoData – Sistema de Alerta Temprana de Calidad del Aire (Juliaca)
 
-**Proyecto Sello – Unidad 1 · Big Data**  
-**Arquitectura:** Lambda (Batch)  
-**Equipo:** EcoData
+**Proyecto Sello – Unidades 1 y 2 · Big Data**
+**Arquitectura:** Lambda (batch + streaming)
+**Autor:** Lanzeloth Vargas Marichi
 
-| Integrante | Dimensión U1 |
-|------------|--------------|
-| **Alahin Reyme Ticona Veliz** | Predicción de temperatura a partir de variables climáticas |
-| **Vargas Marichi Lanzeloth** | Análisis y predicción de calidad del aire (PM2.5 / PM10) orientado a alertas |
+| Integrante | Dimensión |
+|------------|-----------|
+| **Lanzeloth Vargas Marichi** | Análisis y predicción de calidad del aire (PM2.5 / PM10) orientado a alertas |
 
 ---
 
-## Pregunta central del equipo
+## Pregunta central
 
-¿Cómo anticipar condiciones de riesgo ambiental en Juliaca combinando datos climáticos y de calidad del aire mediante un pipeline batch distribuido?
+¿Cómo anticipar el PM2.5 de la próxima hora en Juliaca y avisar cuando se entra en un episodio de contaminación, mediante un pipeline batch distribuido y un flujo en tiempo real?
 
-## Resumen de la Unidad 1
+## Resumen
 
-Se construyó un **pipeline batch completo** con dos dimensiones complementarias:
+Se construyó un **pipeline batch completo** (Unidad 1) y un **sistema en tiempo real** (Unidad 2) para la dimensión Aire:
 
-1. **Dimensión Clima (Alahin):** limpieza, particionamiento y modelo de regresión de temperatura.
-2. **Dimensión Aire (Lanzeloth):** limpieza, análisis y modelo orientado a contaminación / alertas.
+1. **Unidad 1 (batch):** limpieza, particionamiento en Parquet y modelo de regresión de PM2.5 con Spark MLlib.
+2. **Unidad 2 (streaming):** eventos por Kafka, Spark Structured Streaming con ventanas y watermark, modelo que pronostica la hora siguiente, métricas en Prometheus y tablero en Grafana.
 
-Ambas dimensiones comparten la misma arquitectura Lambda y la misma fuente de datos (Open-Meteo).
+Ambas unidades comparten la arquitectura Lambda y la misma fuente de datos (Open-Meteo, modelo CAMS).
