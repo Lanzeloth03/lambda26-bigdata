@@ -18,6 +18,7 @@ theme:
 
 nav:
   - 1. Inicio: index.md
+  - Brief técnico-analítico: brief.md
   - 2. Instalación y ejecución: ejecucion.md
   - 3. Uso del sistema: uso.md
   - 4. Arquitectura: arquitectura.md
@@ -34,7 +35,6 @@ nav:
   - 9. Repositorio y estándares: repositorio.md
   - 10. Limitaciones y mejoras: limitaciones.md
   - Proyecto Sello:
-      - Brief técnico-analítico: brief.md
       - Matriz de trazabilidad: trazabilidad.md
       - Producto U1: u1-producto.md
       - Producto U2: u2-producto.md
