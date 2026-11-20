@@ -1,0 +1,27 @@
+site_name: Big Data U2 - Pipeline en tiempo real
+site_description: Dimension U2 (streaming + inferencia de series de tiempo) de Lanzeloth Vargas Marichi
+site_author: Lanzeloth Vargas Marichi
+repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
+theme:
+  name: material
+  language: es
+  features: [navigation.sections, content.code.copy]
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Inicio: u2/index.md
+  - Mi dimension U2: u2/dimension-u2.md
+  - Ingesta (S6, S7): u2/ingesta.md
+  - Streaming Spark (S8, S12): u2/streaming.md
+  - Observabilidad (S9): u2/observabilidad.md
+  - Costos y escalado (S9): u2/costos.md
+  - Modelo de series de tiempo (S10): u2/modelo.md
+  - BI y KPIs (S11): u2/bi.md
+  - Reproducir el pipeline: u2/reproducibilidad.md

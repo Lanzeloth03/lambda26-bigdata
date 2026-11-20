@@ -10,3 +10,5 @@ artifacts/
 *.parquet
 
 site/
+scripts/_estado.txt
+scripts/_api.txt

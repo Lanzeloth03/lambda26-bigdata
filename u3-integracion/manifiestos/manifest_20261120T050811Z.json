@@ -1,0 +1,184 @@
+{
+  "runId": "20261120T050811Z",
+  "fuente": "kafka",
+  "ventana": {
+    "desde": "2023-12-01T00:00",
+    "hasta": "2023-12-07T23:00"
+  },
+  "gates": [
+    {
+      "gate": "P1 Kafka accesible",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "broker kafka:9092 acepta conexiones"
+    },
+    {
+      "gate": "P2 Pushgateway sano",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "HTTP 200"
+    },
+    {
+      "gate": "P3 Prometheus sano",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "HTTP 200"
+    },
+    {
+      "gate": "P4 Prometheus scrapea Pushgateway (UP)",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "targets pushgateway: ['up']"
+    },
+    {
+      "gate": "P5 Modelo MLlib presente",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "/tmp/s12/modelo_pm25/meta.json"
+    },
+    {
+      "gate": "P6 Datos fuente presentes",
+      "fase": "previa",
+      "estado": "OK",
+      "detalle": "/tmp/s12/aq_juliaca_2023.json (239843 bytes)"
+    },
+    {
+      "gate": "C1 sin duplicados (batch)",
+      "fase": "calidad",
+      "estado": "OK",
+      "detalle": "0 horas duplicadas"
+    },
+    {
+      "gate": "C2 sin negativos (batch)",
+      "fase": "calidad",
+      "estado": "OK",
+      "detalle": "0 valores < 0"
+    },
+    {
+      "gate": "C3 continuidad horaria (batch)",
+      "fase": "calidad",
+      "estado": "OK",
+      "detalle": "100.00 % de pasos de 1 h (0 saltos)"
+    },
+    {
+      "gate": "PL1 mediana PM2.5 plausible (batch)",
+      "fase": "plausibilidad",
+      "estado": "OK",
+      "detalle": "p50 = 4.80 µg/m³ (rango 1–15)"
+    },
+    {
+      "gate": "PL2 p95 PM2.5 plausible (batch)",
+      "fase": "plausibilidad",
+      "estado": "OK",
+      "detalle": "p95 = 10.80 µg/m³ (aviso si > 30)"
+    },
+    {
+      "gate": "S1 publicación a Kafka",
+      "fase": "streaming",
+      "estado": "OK",
+      "detalle": "168 eventos -> atmos-aire-int-20261120t050811z (openmeteo-replay)"
+    },
+    {
+      "gate": "S2 streaming terminó y reportó resumen",
+      "fase": "streaming",
+      "estado": "OK",
+      "detalle": "{'mae_modelo': 0.4550922056033264, 'mae_persistencia': 0.6524475524475521, 'n_evaluadas': 143, 'eventos': 168, 'episodios': 33, 'descartadas_watermark_total': 0, 'watermark': '2023-12-07T21:00:00.000Z'}"
+    },
+    {
+      "gate": "S3 horas evaluadas = 168 − 24 (historia) − 1 (sin siguiente)",
+      "fase": "streaming",
+      "estado": "OK",
+      "detalle": "143 horas evaluadas, esperado 143"
+    },
+    {
+      "gate": "S4 MAE del job == MAE recalculado desde Parquet",
+      "fase": "streaming",
+      "estado": "OK",
+      "detalle": "job=0.455092  parquet=0.455092"
+    },
+    {
+      "gate": "S5 el modelo supera a la persistencia en producción",
+      "fase": "streaming",
+      "estado": "OK",
+      "detalle": "MAE modelo 0.4551 < persistencia 0.6524 (30.2 % mejor)"
+    },
+    {
+      "gate": "O1 el job publicó mae_modelo en el Pushgateway",
+      "fase": "observabilidad",
+      "estado": "OK",
+      "detalle": "Pushgateway=0.4550922056033264  Parquet=0.455092206"
+    },
+    {
+      "gate": "O2 Prometheus devuelve el mismo valor que se publicó",
+      "fase": "observabilidad",
+      "estado": "OK",
+      "detalle": "Prometheus=0.4550922056033264  Pushgateway=0.4550922056033264"
+    },
+    {
+      "gate": "O3 n_evaluadas coincide (Pushgateway = Prometheus = Parquet)",
+      "fase": "observabilidad",
+      "estado": "OK",
+      "detalle": "143.0 / 143.0 / 143"
+    }
+  ],
+  "gatesDemostracion": [
+    {
+      "gate": "P2 (demo) Pushgateway en puerto 9999",
+      "resultado": "BLOQUEADA como se esperaba",
+      "motivo": "P2 (demo) Pushgateway en puerto 9999: puerto 9999 inexistente: URLError"
+    },
+    {
+      "gate": "C1/C2 calidad (copia corrupta)",
+      "resultado": "BLOQUEADA como se esperaba",
+      "motivo": "C1 sin duplicados (copia corrupta): 1 horas duplicadas"
+    }
+  ],
+  "batch": {
+    "n": 8760,
+    "pm25_p50": 4.8,
+    "pm25_p95": 10.8,
+    "pm25_max": 35.2,
+    "pm10_p50": 7.1,
+    "pm10_p95": 16.1,
+    "duplicados": 0,
+    "negativos": 0,
+    "continuidad_pct": 100.0,
+    "modelo_gbt_mae_test": 0.4733888743356669,
+    "persistencia_mae_test": 0.6871207784773903,
+    "mejora_vs_persistencia_pct": 31.105434566443726,
+    "n_train": 6988,
+    "n_test": 1747
+  },
+  "streaming": {
+    "n_evaluadas": 143,
+    "mae_modelo": 0.4550922056033264,
+    "mae_persistencia": 0.6524475524475518,
+    "mejora_vs_persistencia_pct": 30.248461520604778,
+    "err_abs_modelo_p50": 0.26648497201845345,
+    "err_abs_modelo_p95": 1.502046871421001,
+    "err_abs_persistencia_p50": 0.30000000000000004,
+    "err_abs_persistencia_p95": 1.9800000000000013,
+    "ventanas_6h_escritas": 27,
+    "eventos_procesados": 168,
+    "episodios": 33,
+    "descartadas_watermark": 0,
+    "duracion_stream_s": 50.4,
+    "topic": "atmos-aire-int-20261120t050811z"
+  },
+  "observabilidad": {
+    "pushgateway_url": "http://pushgateway:9091",
+    "prometheus_url": "http://prometheus:9090",
+    "job": "lambda26_aire_int",
+    "mae_modelo_publicado": 0.4550922056033264,
+    "mae_modelo_prometheus": 0.4550922056033264,
+    "n_evaluadas_prometheus": 143.0,
+    "latencia_confirmacion_s": 0.0
+  },
+  "resumen": {
+    "gates_total": 19,
+    "gates_ok": 19,
+    "gates_advertencia": 0,
+    "gates_bloqueantes_falladas": 0
+  },
+  "duracionTotalS": 68.5
+}
