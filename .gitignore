@@ -12,3 +12,4 @@ artifacts/
 site/
 scripts/_estado.txt
 scripts/_api.txt
+scripts/_latencia.txt
