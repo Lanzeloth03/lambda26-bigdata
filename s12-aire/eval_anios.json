@@ -1,0 +1,292 @@
+{
+  "generado_utc": "2026-11-20T15:21",
+  "anios": {
+    "2024": {
+      "horas_en_respuesta": 8784,
+      "horas_con_dato": 8784,
+      "primera_hora": "2024-01-01T00:00",
+      "ultima_hora": "2024-12-31T23:00",
+      "pm25_media": 5.34,
+      "pm25_max": 32.1,
+      "horas_evaluadas": 8759,
+      "mae_modelo": 0.4762,
+      "mae_persistencia": 0.7095,
+      "mejora_pct": 32.9,
+      "por_mes": [
+        {
+          "mes": "2024-01",
+          "n": 720,
+          "mae_modelo": 0.421,
+          "mae_persistencia": 0.623,
+          "mejora_pct": 32.3
+        },
+        {
+          "mes": "2024-02",
+          "n": 696,
+          "mae_modelo": 0.39,
+          "mae_persistencia": 0.585,
+          "mejora_pct": 33.3
+        },
+        {
+          "mes": "2024-03",
+          "n": 744,
+          "mae_modelo": 0.451,
+          "mae_persistencia": 0.709,
+          "mejora_pct": 36.5
+        },
+        {
+          "mes": "2024-04",
+          "n": 720,
+          "mae_modelo": 0.486,
+          "mae_persistencia": 0.735,
+          "mejora_pct": 33.9
+        },
+        {
+          "mes": "2024-05",
+          "n": 744,
+          "mae_modelo": 0.478,
+          "mae_persistencia": 0.774,
+          "mejora_pct": 38.3
+        },
+        {
+          "mes": "2024-06",
+          "n": 720,
+          "mae_modelo": 0.455,
+          "mae_persistencia": 0.821,
+          "mejora_pct": 44.6
+        },
+        {
+          "mes": "2024-07",
+          "n": 744,
+          "mae_modelo": 0.442,
+          "mae_persistencia": 0.729,
+          "mejora_pct": 39.4
+        },
+        {
+          "mes": "2024-08",
+          "n": 744,
+          "mae_modelo": 0.394,
+          "mae_persistencia": 0.66,
+          "mejora_pct": 40.3
+        },
+        {
+          "mes": "2024-09",
+          "n": 720,
+          "mae_modelo": 0.826,
+          "mae_persistencia": 1.036,
+          "mejora_pct": 20.2
+        },
+        {
+          "mes": "2024-10",
+          "n": 744,
+          "mae_modelo": 0.453,
+          "mae_persistencia": 0.634,
+          "mejora_pct": 28.6
+        },
+        {
+          "mes": "2024-11",
+          "n": 720,
+          "mae_modelo": 0.441,
+          "mae_persistencia": 0.618,
+          "mejora_pct": 28.7
+        },
+        {
+          "mes": "2024-12",
+          "n": 743,
+          "mae_modelo": 0.481,
+          "mae_persistencia": 0.591,
+          "mejora_pct": 18.6
+        }
+      ]
+    },
+    "2025": {
+      "horas_en_respuesta": 8760,
+      "horas_con_dato": 8760,
+      "primera_hora": "2025-01-01T00:00",
+      "ultima_hora": "2025-12-31T23:00",
+      "pm25_media": 4.55,
+      "pm25_max": 20.2,
+      "horas_evaluadas": 8735,
+      "mae_modelo": 0.513,
+      "mae_persistencia": 0.6522,
+      "mejora_pct": 21.3,
+      "por_mes": [
+        {
+          "mes": "2025-01",
+          "n": 720,
+          "mae_modelo": 0.445,
+          "mae_persistencia": 0.607,
+          "mejora_pct": 26.7
+        },
+        {
+          "mes": "2025-02",
+          "n": 672,
+          "mae_modelo": 0.457,
+          "mae_persistencia": 0.619,
+          "mejora_pct": 26.2
+        },
+        {
+          "mes": "2025-03",
+          "n": 744,
+          "mae_modelo": 0.535,
+          "mae_persistencia": 0.742,
+          "mejora_pct": 28.0
+        },
+        {
+          "mes": "2025-04",
+          "n": 720,
+          "mae_modelo": 0.548,
+          "mae_persistencia": 0.736,
+          "mejora_pct": 25.5
+        },
+        {
+          "mes": "2025-05",
+          "n": 744,
+          "mae_modelo": 0.566,
+          "mae_persistencia": 0.784,
+          "mejora_pct": 27.8
+        },
+        {
+          "mes": "2025-06",
+          "n": 720,
+          "mae_modelo": 0.546,
+          "mae_persistencia": 0.686,
+          "mejora_pct": 20.4
+        },
+        {
+          "mes": "2025-07",
+          "n": 744,
+          "mae_modelo": 0.637,
+          "mae_persistencia": 0.882,
+          "mejora_pct": 27.8
+        },
+        {
+          "mes": "2025-08",
+          "n": 744,
+          "mae_modelo": 0.52,
+          "mae_persistencia": 0.626,
+          "mejora_pct": 16.9
+        },
+        {
+          "mes": "2025-09",
+          "n": 720,
+          "mae_modelo": 0.498,
+          "mae_persistencia": 0.664,
+          "mejora_pct": 25.1
+        },
+        {
+          "mes": "2025-10",
+          "n": 744,
+          "mae_modelo": 0.503,
+          "mae_persistencia": 0.605,
+          "mejora_pct": 16.8
+        },
+        {
+          "mes": "2025-11",
+          "n": 720,
+          "mae_modelo": 0.445,
+          "mae_persistencia": 0.392,
+          "mejora_pct": -13.6
+        },
+        {
+          "mes": "2025-12",
+          "n": 743,
+          "mae_modelo": 0.449,
+          "mae_persistencia": 0.475,
+          "mejora_pct": 5.6
+        }
+      ]
+    },
+    "2026": {
+      "horas_en_respuesta": 7776,
+      "horas_con_dato": 7776,
+      "primera_hora": "2026-01-01T00:00",
+      "ultima_hora": "2026-11-20T23:00",
+      "pm25_media": 5.25,
+      "pm25_max": 64.0,
+      "horas_evaluadas": 7751,
+      "mae_modelo": 0.6335,
+      "mae_persistencia": 0.8349,
+      "mejora_pct": 24.1,
+      "por_mes": [
+        {
+          "mes": "2026-01",
+          "n": 720,
+          "mae_modelo": 0.422,
+          "mae_persistencia": 0.608,
+          "mejora_pct": 30.5
+        },
+        {
+          "mes": "2026-02",
+          "n": 672,
+          "mae_modelo": 0.496,
+          "mae_persistencia": 0.646,
+          "mejora_pct": 23.3
+        },
+        {
+          "mes": "2026-03",
+          "n": 744,
+          "mae_modelo": 0.515,
+          "mae_persistencia": 0.71,
+          "mejora_pct": 27.4
+        },
+        {
+          "mes": "2026-04",
+          "n": 720,
+          "mae_modelo": 0.58,
+          "mae_persistencia": 0.742,
+          "mejora_pct": 21.9
+        },
+        {
+          "mes": "2026-05",
+          "n": 744,
+          "mae_modelo": 0.607,
+          "mae_persistencia": 0.82,
+          "mejora_pct": 26.0
+        },
+        {
+          "mes": "2026-06",
+          "n": 720,
+          "mae_modelo": 0.759,
+          "mae_persistencia": 1.072,
+          "mejora_pct": 29.1
+        },
+        {
+          "mes": "2026-07",
+          "n": 744,
+          "mae_modelo": 0.858,
+          "mae_persistencia": 1.147,
+          "mejora_pct": 25.2
+        },
+        {
+          "mes": "2026-08",
+          "n": 744,
+          "mae_modelo": 0.811,
+          "mae_persistencia": 1.051,
+          "mejora_pct": 22.8
+        },
+        {
+          "mes": "2026-09",
+          "n": 720,
+          "mae_modelo": 0.682,
+          "mae_persistencia": 0.867,
+          "mejora_pct": 21.3
+        },
+        {
+          "mes": "2026-10",
+          "n": 744,
+          "mae_modelo": 0.674,
+          "mae_persistencia": 0.803,
+          "mejora_pct": 16.1
+        },
+        {
+          "mes": "2026-11",
+          "n": 479,
+          "mae_modelo": 0.5,
+          "mae_persistencia": 0.624,
+          "mejora_pct": 19.8
+        }
+      ]
+    }
+  }
+}

@@ -67,6 +67,12 @@ El procesamiento sí; la fuente es horaria y modelada. Lo decimos abiertamente.
 **¿Por qué cambiaron la pregunta?**
 Porque la norma peruana nunca se excedió en 2023: no había casos positivos. Pasamos a un pronóstico medible en todas las horas.
 
+**¿El modelo sirve fuera de 2023?**
+Sí. Sin reentrenar, en datos reales posteriores gana a la persistencia: −32,9 % en 2024, −21,3 % en 2025 y −24,1 % en 2026, y en 34 de los 35 meses evaluados. La única excepción es noviembre de 2025. La ventaja baja en 2025, por eso se propone reentrenar periódicamente. Detalle en [Validación 2024-2026](validacion-2024-2026.md).
+
+**¿Hay datos de 2026?**
+Sí: la API entrega la serie horaria desde el 01/01/2026; se descargó hasta el 20/11/2026 y se usó solo para validar.
+
 **¿Por qué hay más mensajes en Kafka que horas de 2023?**
 Además de 2023 se cargaron los años 2024 y 2025 como histórico real, cada uno en su topic (`atmos-aire-hist-2024` y `atmos-aire-hist-2025`), y el demo y las corridas de integración tienen sus propios topics. En total el broker acumula alrededor de 27 000 mensajes.
 
