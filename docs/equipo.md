@@ -16,6 +16,3 @@ Por indicación del docente, **cada integrante construye de extremo a extremo su
 | U3 | MkDocs, Brief, matriz, informe, guion de demo | `docs/`, `mkdocs.yml` |
 
 Los commits del repositorio están a nombre de `lanzeloth` y se pueden listar con `git log --author=lanzeloth --oneline`. El trabajo de las sesiones S6–S11 (pipeline ESP32/DHT11) también está en el historial.
-
-!!! note "Uso de asistentes de IA"
-    Parte del código y de la documentación se elaboró con asistencia de Claude (Anthropic); los commits que lo reflejan llevan la línea `Co-Authored-By`. Las decisiones de diseño, las ejecuciones y los resultados son verificables en el repositorio y se explican en la sustentación.
