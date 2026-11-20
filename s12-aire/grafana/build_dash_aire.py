@@ -34,7 +34,12 @@ ps = [
  panel("timeseries", "Estado y descartes del watermark", [M + "estado_filas", M + "filas_descartadas_watermark_total"], 12, 16, w=12, h=7, legends=["filas de estado", "descartadas (acum.)"]),
  panel("stat", "Pushgateway: segundos desde último push (inferencia)", ['time() - push_time_seconds{job="lambda26_aire",instance="inferencia"}'], 0, 23, unit="s", dec=0),
  panel("timeseries", "Eventos procesados", [M + "eventos_total"], 6, 23, w=18, h=5, legends=["eventos"]),
+ # Ingesta en Kafka (métrica del kafka-exporter): histórico 2023-2025 + demo en vivo + negocio
+ panel("stat", "Mensajes en Kafka (todos los topics)", ['sum(kafka_topic_partition_current_offset{topic!~"__.*"})'], 0, 28, w=6, h=6, dec=0),
+ panel("bargauge", "Mensajes por topic (histórico 2023-2025, demo en vivo, negocio)", ['kafka_topic_partition_current_offset{topic!~"__.*"}'], 6, 28, w=18, h=6, legends=["{{topic}}"], dec=0),
 ]
+ps[-1]["options"] = {"orientation": "horizontal", "displayMode": "gradient", "reduceOptions": {"calcs": ["lastNotNull"]}}
+ps[-1]["fieldConfig"]["defaults"]["color"] = {"mode": "continuous-GrYlRd"}
 dash = {"uid": "lambda26-s12-aire", "title": "S12 - Calidad del aire (Open-Meteo / CAMS) -> Kafka -> Spark", "schemaVersion": 39, "version": 1,
         "refresh": "5s", "time": {"from": "now-1h", "to": "now"}, "tags": ["lambda26", "u2", "aire"], "panels": ps,
         "templating": {"list": [{"name": "DS_PROMETHEUS", "type": "datasource", "query": "prometheus", "current": {}}]},

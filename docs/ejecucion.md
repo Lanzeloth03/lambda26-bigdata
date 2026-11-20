@@ -63,5 +63,9 @@ docker compose -f kafka/compose.yml down
 | Grafana no abre con la clave nueva | el volumen conserva la clave antigua | `docker compose -f obs/compose.yml down -v` y volver a levantar (o cambiarla desde la UI) |
 
 ## Demo continuo (tableros siempre con datos)
-Después de `scripts\levantar.cmd`, ejecuta `scripts\demo_continuo.cmd`. Crea el topic `atmos-aire-demo`, arranca el job de streaming dentro del contenedor y publica **1 evento por minuto** (replay desde 2023-11-15, unas 18 h) y luego la API de Open-Meteo cada hora. No necesita una terminal abierta. Las métricas de error (MAE) aparecen a los ~25 min, cuando el modelo reúne 24 h de historia. Para detenerlo: `scripts\detener_demo.cmd`.
+Después de `scripts\levantar.cmd`, ejecuta `scripts\demo_continuo.cmd`. Crea el topic `atmos-aire-demo`, arranca el job de streaming dentro del contenedor y publica **1 evento cada 10 s** desde 2023-10-20 (el periodo de test de U1, unas 4,9 h de replay) y luego la API de Open-Meteo cada hora. No necesita una terminal abierta. Las métricas de error (MAE) aparecen cuando el modelo reúne 24 h de historia.
 
+- **Reiniciar limpio** (Grafana vuelve a cero, sin duplicados): `scripts\reiniciar_demo.cmd [segundos_por_evento]`.
+- **Detener**: `scripts\detener_demo.cmd`. El contenedor no trae `ps` ni `pkill`, por eso se usa `scripts\detener_todo.py`, que recorre `/proc`.
+- **Volumen en Kafka**: `scripts\cargar_historico.cmd` carga el año 2023 completo en `atmos-aire` (8 760 mensajes) y `scripts\cargar_historico_anio.cmd 2024` descarga de Open-Meteo y publica otro año real en `atmos-aire-hist-2024`. Son topics de ingesta (Bronze en Kafka): el job del demo solo lee `atmos-aire-demo`.
+- El tablero incluye el panel «Mensajes por topic», con la métrica del `kafka-exporter`.

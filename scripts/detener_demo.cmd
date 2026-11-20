@@ -1,3 +1,5 @@
 @echo off
-REM Detiene el job y el alimentador del demo continuo.
-docker exec lambda26-pyspark sh -c "kill $(cat /tmp/s12/alim.pid) 2>/dev/null; pkill -f openmeteo_a_kafka 2>/dev/null; kill $(cat /tmp/s12/job.pid) 2>/dev/null; pkill -f s12_streaming_aire 2>/dev/null; rm -f /tmp/s12/*.pid; echo detenido"
+REM Detiene el job y los alimentadores del demo continuo (el contenedor no trae pkill; se usa detener_todo.py).
+cd /d "%~dp0.."
+docker cp scripts\detener_todo.py lambda26-pyspark:/tmp/s12/detener_todo.py
+docker exec lambda26-pyspark python /tmp/s12/detener_todo.py

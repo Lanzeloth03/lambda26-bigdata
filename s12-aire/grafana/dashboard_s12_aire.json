@@ -703,6 +703,104 @@
     },
     "overrides": []
    }
+  },
+  {
+   "id": 15,
+   "type": "stat",
+   "title": "Mensajes en Kafka (todos los topics)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "targets": [
+    {
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "sum(kafka_topic_partition_current_offset{topic!~\"__.*\"})",
+     "refId": "A",
+     "legendFormat": ""
+    }
+   ],
+   "gridPos": {
+    "x": 0,
+    "y": 28,
+    "w": 6,
+    "h": 6
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "decimals": 0,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "color": {
+      "mode": "thresholds"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "colorMode": "value"
+   }
+  },
+  {
+   "id": 16,
+   "type": "bargauge",
+   "title": "Mensajes por topic (histórico 2023-2025, demo en vivo, negocio)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "${DS_PROMETHEUS}"
+   },
+   "targets": [
+    {
+     "datasource": {
+      "type": "prometheus",
+      "uid": "${DS_PROMETHEUS}"
+     },
+     "expr": "kafka_topic_partition_current_offset{topic!~\"__.*\"}",
+     "refId": "A",
+     "legendFormat": "{{topic}}"
+    }
+   ],
+   "gridPos": {
+    "x": 6,
+    "y": 28,
+    "w": 18,
+    "h": 6
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "decimals": 0,
+     "color": {
+      "mode": "continuous-GrYlRd"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "orientation": "horizontal",
+    "displayMode": "gradient",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
   }
  ],
  "templating": {
