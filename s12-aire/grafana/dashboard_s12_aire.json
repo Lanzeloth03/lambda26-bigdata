@@ -760,7 +760,7 @@
   {
    "id": 16,
    "type": "bargauge",
-   "title": "Mensajes por topic (histórico 2023-2025, demo en vivo, negocio)",
+   "title": "Mensajes por topic (histórico 2023-2026, demo en vivo, negocio)",
    "datasource": {
     "type": "prometheus",
     "uid": "${DS_PROMETHEUS}"
