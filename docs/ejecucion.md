@@ -61,3 +61,7 @@ docker compose -f kafka/compose.yml down
 | `P4 Prometheus scrapea Pushgateway` falla | falta el job en `prometheus.yml` | verificar <http://localhost:49090/targets> (debe haber `pushgateway` UP) |
 | `container name lambda26-pushgateway is already in use` | quedó el contenedor creado a mano | `docker rm -f lambda26-pushgateway` y repetir (el script ya lo hace) |
 | Grafana no abre con la clave nueva | el volumen conserva la clave antigua | `docker compose -f obs/compose.yml down -v` y volver a levantar (o cambiarla desde la UI) |
+
+## Demo continuo (tableros siempre con datos)
+Después de `scripts\levantar.cmd`, ejecuta `scripts\demo_continuo.cmd`. Crea el topic `atmos-aire-demo`, arranca el job de streaming dentro del contenedor y publica **1 evento por minuto** (replay desde 2023-11-15, unas 18 h) y luego la API de Open-Meteo cada hora. No necesita una terminal abierta. Las métricas de error (MAE) aparecen a los ~25 min, cuando el modelo reúne 24 h de historia. Para detenerlo: `scripts\detener_demo.cmd`.
+
