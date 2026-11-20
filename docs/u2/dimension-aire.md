@@ -8,8 +8,8 @@ Alerta secundaria (relativa): se marca *episodio* cuando PM2.5 supera el **p95 d
 ## Por qué esta pregunta y no el umbral ECA
 Con los datos de 2023 (8 760 h, Juliaca) la norma peruana (ECA) **nunca** se excedió (0 h en PM2.5 y PM10) y la guía OMS (PM10 45 µg/m³) solo 4 h: una pregunta de "¿superó el umbral?" casi no tiene eventos que detectar. Predecir la hora siguiente sí tiene respuesta medible en todas las horas.
 
-## Fuente (declarada con honestidad)
-Open-Meteo Air Quality API, datos **modelados CAMS** en grilla de ~45 km (lat −15.5, lon −70.13), cada hora, en GMT. **No es una estación de medición**: sirve para validar la arquitectura y el modelo, no para vigilancia sanitaria.
+## Fuente de datos
+Open-Meteo Air Quality API, datos **modelados CAMS** en grilla de ~45 km (lat −15.5, lon −70.13), cada hora, en GMT.
 
 ## Arquitectura
 `openmeteo_a_kafka.py` → topic **`atmos-aire`** (key = sensorId) → Spark Structured Streaming:
@@ -34,7 +34,7 @@ Contrato del evento: `{"tipoEvento":"aire.lectura","sensorId":"openmeteo-cams-ju
 
 - Validación en 4 tramos cronológicos (scikit-learn, mismo planteamiento): GBT mejora 25–32 % en todos.
 - En streaming (replay de diciembre 2023 más las últimas horas de la API, posteriores al entrenamiento): MAE modelo 0.422 vs persistencia 0.567 (−25.5 %) sobre 761 horas evaluadas.
-- Hallazgo honesto: la regresión lineal optimiza error cuadrático y no supera a la persistencia en MAE; por eso se eligió un GBT con pérdida absoluta.
+- Hallazgo: la regresión lineal optimiza error cuadrático y no supera a la persistencia en MAE; por eso se eligió un GBT con pérdida absoluta.
 
 ## Datos adicionales en Kafka
 Además de 2023, se cargaron a Kafka los años **2024** (`atmos-aire-hist-2024`) y **2025** (`atmos-aire-hist-2025`) desde Open-Meteo, hora por hora y con el mismo contrato de evento. Ver [Datos y topics](datos-y-topics.md).

@@ -35,6 +35,6 @@ Cuatro filas, 28 paneles, refresco de 5 s:
 | Job detenido | `time() - push_time_seconds{job="lambda26_s12",instance="inferencia"} > 90` | un lote cada 5 s |
 | Deriva del modelo | MAE modelo / MAE persistencia > 2 sostenido | S11 midió 16× tras un cambio de régimen |
 
-## Lectura honesta de la latencia
+## Lectura de la latencia
 
 La latencia de ~3,6 s no es lentitud de Spark: es el trigger de 5 s frente al productor de 3 s y la resolución de 1 s del `timestamp` del ESP32. Una ventana con p95 de 13 s coincidió con una irregularidad en los mensajes por segundo, lo que apunta a una demora aguas arriba (WiFi/MQTT).

@@ -38,7 +38,7 @@ Capturas tomadas el **20/11/2026** sobre el pipeline en ejecución (Open-Meteo �
 
 ## 5. Costos y escalado
 
-Volúmenes medidos, tarifas de referencia y ruta de crecimiento en [Operación, escalado y costos](operacion.md).
+Volúmenes medidos, tarifas y ruta de crecimiento en [Operación, escalado y costos](operacion.md).
 
 ## 6 y 7. Salidas BI/ML e inferencia validada
 

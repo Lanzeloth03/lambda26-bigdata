@@ -6,7 +6,7 @@
 
 * **Objetivo:** `siguiente = lead(distanciaCm, 1)`.
 * **Feature:** solo `valor`. Es *sin estado*: en streaming cada evento llega solo, y así el mismo modelo sirve en entrenamiento e inferencia.
-* **Regla de honestidad:** cualquier modelo debe superar primero a la **persistencia** (`predicción = valor actual`).
+* **Regla:** cualquier modelo debe superar primero a la **persistencia** (`predicción = valor actual`).
 * **Split cronológico 80/20** con verificación `max(train) < min(test)`; no hay fuga temporal.
 
 ## Validación en batch (conjunto de prueba)

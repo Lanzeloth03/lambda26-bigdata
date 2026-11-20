@@ -17,7 +17,7 @@ Cada tema de S6 a S11 respondido con **nuestro** pipeline EcoData (aire, Juliaca
 ### S7 · Eventos IoT/sensores
 - **Frecuencia y volumen:** 1 lectura por hora (dato modelado de Open-Meteo, tamaño constante ≈ 0,17 KB).
 - **Validación:** esquema y rango físico (PM ≥ 0).
-- **Honestidad de la fuente:** el dato es modelado (CAMS, ~45 km), no una estación. Funciona como «sensor virtual».
+- **Fuente:** dato modelado de Open-Meteo (CAMS, ~45 km), horario; funciona como «sensor virtual».
 - **¿Por qué un sensor real usa MQTT y no Kafka?** Un sensor tiene poca memoria, batería y conexión intermitente. MQTT es liviano; un puente publica luego en Kafka. Aquí `openmeteo_a_kafka.py` hace de puente entre la API y Kafka.
 
 ### S8 · Streaming con ventanas, watermark y semántica
@@ -103,5 +103,5 @@ Hoy es un nodo y un broker. Los criterios de escalado están en [operacion.md](o
 3. Pregunta reformulada con evidencia (cero excesos del ECA).
 4. Baseline de persistencia y modelo con pérdida absoluta.
 5. Eventos de negocio (`aire.episodio`) en un topic aparte.
-6. Honestidad de la fuente: modelada, ~45 km, horaria.
+6. Fuente consumida por API cada hora (CAMS, ~45 km).
 7. Semáforo de frescura para suplir la limitación de Pushgateway.

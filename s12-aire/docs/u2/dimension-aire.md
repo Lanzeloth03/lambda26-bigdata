@@ -8,7 +8,7 @@ Alerta secundaria (relativa): se marca *episodio* cuando PM2.5 supera el **p95 d
 ## Por qué esta pregunta y no el umbral ECA
 Con los datos de 2023 (8 760 h, Juliaca) la norma peruana (ECA) **nunca** se excedió (0 h en PM2.5 y PM10) y la guía OMS (PM10 45 µg/m³) solo 4 h: una pregunta de "¿superó el umbral?" casi no tiene eventos que detectar. Predecir la hora siguiente sí tiene respuesta medible en todas las horas.
 
-## Fuente (declarada con honestidad)
+## Fuente de datos
 Open-Meteo Air Quality API, datos **modelados CAMS** en grilla de ~45 km (lat −15.5, lon −70.13), cada hora, en GMT. **No es una estación de medición**: sirve para validar la arquitectura y el modelo, no para vigilancia sanitaria.
 
 ## Arquitectura
@@ -34,7 +34,7 @@ Contrato del evento: `{"tipoEvento":"aire.lectura","sensorId":"openmeteo-cams-ju
 
 - Validación en 4 tramos cronológicos (scikit-learn, mismo planteamiento): GBT mejora 25–32 % en todos.
 - En streaming (replay de diciembre 2023 más las últimas horas de la API, posteriores al entrenamiento): MAE modelo 0.422 vs persistencia 0.567 (−25.5 %) sobre 761 horas evaluadas.
-- Hallazgo honesto: la regresión lineal optimiza error cuadrático y no supera a la persistencia en MAE; por eso se eligió un GBT con pérdida absoluta.
+- Hallazgo: la regresión lineal optimiza error cuadrático y no supera a la persistencia en MAE; por eso se eligió un GBT con pérdida absoluta.
 
 ## Limitaciones
 1. Dato modelado, no medido; grilla de ~45 km. 2. Un solo año (2023) y una sola ubicación. 3. El modelo se entrenó hasta oct-2023; el replay de dic-2023 y las horas de la API son posteriores, así que la métrica en vivo es fuera de muestra (MAE 0,422 frente a 0,567 de la persistencia, −25,5 % sobre 761 h; en prueba cronológica 0,473 frente a 0,687, −31,1 %), pero cubre un solo periodo. 4. Estacionalidad: PM10 de ene ≈ 2.4 vs ago ≈ 10.0 µg/m³ → reentrenar periódicamente (deriva).

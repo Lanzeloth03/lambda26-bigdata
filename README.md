@@ -7,8 +7,6 @@ Curso Big Data, UPeU Juliaca, sección G1, 2026-2 · Autor: **Lanzeloth Vargas M
 
 📖 **Documentación completa (MkDocs):** <https://lanzeloth03.github.io/lambda26-bigdata/>
 
-> El dato es PM2.5/PM10 **modelado** (Open-Meteo/CAMS, ~45 km), no una estación: sirve para validar arquitectura y modelo, no para vigilancia sanitaria.
-
 ## Arranque rápido (Windows, Docker Desktop)
 ```bat
 copy .env.example .env

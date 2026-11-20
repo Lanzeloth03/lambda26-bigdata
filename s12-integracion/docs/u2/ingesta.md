@@ -72,5 +72,5 @@ Servicio de alertas del monitoreo (`scripts/s6_eventos_negocio.py`). Cada decisi
 | `timestamp` | long | epoch ms del evento que originó la alerta, o de la orden |
 | `origen` | string | `alertas-service` \| `operador-manual` |
 
-!!! warning "Honestidad sobre el origen"
+!!! warning "Origen de las alertas"
     Las `AlertaOperativa` se derivan de lecturas reales; las `OrdenMantenimiento` son simuladas por un operador (comando manual). No se generan eventos aleatorios.

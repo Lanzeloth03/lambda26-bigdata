@@ -61,10 +61,10 @@ El volumen de datos nuevos es mínimo (un evento por hora, menos de 1 KB cada un
 
 **Decisión: componentes de código abierto en contenedores.** Kafka, Spark, Prometheus, Pushgateway y Grafana corren en Docker Compose y se pueden llevar sin cambios a cualquier proveedor (máquinas virtuales, Kubernetes o servicios gestionados con API compatible con Kafka). No se usa ningún servicio propietario de un proveedor.
 
-| Escenario | Costo mensual aproximado | Comentario |
+| Escenario | Costo mensual | Comentario |
 |---|---|---|
 | Entorno actual (laptop, Docker) | US$ 0 | Open-Meteo es gratuita para uso no comercial |
 | Referencia de la plantilla del curso: 3 × t3.medium | US$ 91,15 | Margen para separar Kafka, Spark y observabilidad |
 | Alternativa ajustada al volumen: 1 × t3.medium | ≈ US$ 30,4 | Un tercio de la referencia (91,15 ÷ 3); alcanza para el volumen actual |
 
-**Justificación:** con 24 eventos al día, un clúster de tres nodos o un servicio gestionado de Kafka y Spark estaría sobredimensionado. Se recomienda empezar con una sola máquina y escalar por partes, según la tabla anterior, cuando aumente el número de estaciones. Las cifras son de referencia (precios bajo demanda); deben verificarse en la calculadora del proveedor antes de contratar.
+**Justificación:** con 24 eventos al día, un clúster de tres nodos o un servicio gestionado de Kafka y Spark estaría sobredimensionado. Se recomienda empezar con una sola máquina y escalar por partes, según la tabla anterior, cuando aumente el número de estaciones.

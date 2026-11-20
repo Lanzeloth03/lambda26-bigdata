@@ -50,7 +50,7 @@ En este periodo (invierno seco) el aire de Juliaca fue mayormente limpio y los e
 | RandomForest | 3,676 | 1,715 | 0,589 |
 | GBT | 3,901 | 1,707 | 0,537 |
 
-**Lectura de resultados.** La regresión lineal logra el menor RMSE y el mayor R², con una mejora pequeña sobre la persistencia; en MAE la persistencia es mejor. Los modelos de árboles rinden peor porque el tramo de prueba incluye los picos de agosto (hasta 64 µg/m³), valores que no vieron al entrenar, y los árboles no extrapolan fuera del rango aprendido. La conclusión honesta es que, con una serie tan estable, es difícil superar a la persistencia por un margen amplio; el valor de la dimensión está en la limpieza, el etiquetado de riesgo y la base para el modelo en tiempo real de U2.
+**Lectura de resultados.** La regresión lineal logra el menor RMSE y el mayor R², con una mejora pequeña sobre la persistencia; en MAE la persistencia es mejor. Los modelos de árboles rinden peor porque el tramo de prueba incluye los picos de agosto (hasta 64 µg/m³), valores que no vieron al entrenar, y los árboles no extrapolan fuera del rango aprendido. En conclusión, con una serie tan estable, es difícil superar a la persistencia por un margen amplio; el valor de la dimensión está en la limpieza, el etiquetado de riesgo y la base para el modelo en tiempo real de U2.
 
 ## Umbrales de alerta propuestos
 PM2.5 ≥ 25 µg/m³ (Moderado) y ≥ 50 µg/m³ (Alto). En la Unidad 2 se complementan con un umbral relativo al percentil 95 de la serie reciente.
