@@ -32,6 +32,7 @@ Todos con 1 partición y factor de replicación 1. En conjunto, el broker acumul
 |---|---|
 | `scripts\cargar_historico.cmd` | Publica 2023 completo en `atmos-aire` (8 760 mensajes); si el topic ya tiene datos, no repite |
 | `scripts\cargar_historico_anio.cmd 2024` | Descarga el año indicado desde Open-Meteo y lo publica en `atmos-aire-hist-<año>` |
+| `scripts\cargar_historico_anio.cmd 2026 2026-11-20` | Igual, con fecha final opcional (para el año en curso) |
 | `scripts\demo_continuo.cmd` | Crea `atmos-aire-demo`, arranca el job y alimenta un evento cada 10 s |
 | `scripts\reiniciar_demo.cmd` | Reinicio limpio del demo: Grafana vuelve a cero, sin duplicados |
 | `scripts\detener_demo.cmd` | Detiene el job y el alimentador |

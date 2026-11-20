@@ -75,4 +75,4 @@ El modelo se entrenó **solo con 2023** (hasta el 19/10/2023). Para comprobar qu
 | 2026-11 | 479 | 0,500 | 0,624 | 19,8 % |
 
 ## Datos de 2026
-Sí hay datos de 2026: la API de Open-Meteo devuelve la serie horaria desde el **01/01/2026 00:00** y se descargó hasta el **20/11/2026**. Los de 2026 se usaron solo para evaluar; no se cargaron a Kafka. Las últimas horas del día en curso son un pronóstico del propio modelo CAMS y no una observación consolidada.
+Sí hay datos de 2026: la API de Open-Meteo devuelve la serie horaria desde el **01/01/2026 00:00** y se descargó hasta el **20/11/2026**. Los de 2026 se cargaron a Kafka en `atmos-aire-hist-2026` y se usaron para evaluar. Las últimas horas del día en curso son un pronóstico del propio modelo CAMS y no una observación consolidada.
