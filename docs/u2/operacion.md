@@ -39,15 +39,4 @@ Volumen mínimo: 1 evento por hora, ≈ 150 bytes. Una partición y un broker ba
 ## 4. Costos y portabilidad
 Componentes de código abierto en contenedores (Kafka, Spark, Prometheus, Pushgateway y Grafana en Docker Compose): se pueden llevar a cualquier proveedor sin servicios propietarios.
 
-!!! info "Precios de referencia"
-    AWS us-east-1: t3.medium US$ 0,0416/h; S3 Standard US$ 0,023/GB-mes. Son valores de referencia; verificar antes de usarlos como presupuesto.
-
-| Escenario | Carga | Cómputo | Total aprox. |
-|---|---|---|---|
-| Laboratorio (hoy) | 1 ubicación | Laptop del equipo, Docker | US$ 0 |
-| Referencia de la plantilla del curso | — | 3 × t3.medium | US$ 91,15/mes |
-| **Nube mínima (ajustada al volumen)** | 1 ubicación | 1 × t3.medium × 730 h | **≈ US$ 30,4/mes** |
-| 100 ubicaciones | 0,03 ev/s | Mismo host (hipótesis a probar) | ≈ US$ 30/mes |
-| 1 000 ubicaciones | 0,28 ev/s | 3 brokers + Spark en clúster | No estimado: requiere prueba de carga |
-
 **Justificación.** Con 24 eventos al día, un clúster de tres nodos o un servicio gestionado de Kafka y Spark estaría sobredimensionado. El costo lo domina el cómputo siempre encendido, no los datos. Son extrapolaciones lineales, no pruebas de carga.

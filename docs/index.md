@@ -21,19 +21,6 @@ flowchart LR
   S -->|métricas| P[Pushgateway] --> R[Prometheus] --> G[Grafana]
 ```
 
-!!! warning "Honestidad sobre el dato"
-    La fuente es **PM2.5/PM10 modelado por CAMS** en una grilla de ≈ 45 km, no una estación física. Sirve para validar la arquitectura y el modelo; **no para vigilancia sanitaria**.
-
-## Pregunta central
-> ¿Un modelo entrenado con las últimas horas de PM2.5 y PM10 de Juliaca predice el PM2.5 de la próxima hora **mejor que repetir la última hora** (persistencia)?
-
-## Respuesta medida
-| Escenario | MAE modelo | MAE persistencia | Mejora |
-|---|---|---|---|
-| U1 · batch, prueba cronológica (1 747 h) | **0,4635** µg/m³ | 0,6871 | **−32,5 %** |
-| U2 · streaming en vivo (761 h) | **0,422** µg/m³ | 0,567 | **−25,5 %** |
-| Integración · corrida con 19 compuertas (143 h) | **0,4551** µg/m³ | 0,6524 | **−30,2 %** |
-
 ## Mapa del sitio
 | Quiero… | Ir a |
 |---|---|

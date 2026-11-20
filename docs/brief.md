@@ -1,7 +1,5 @@
 # Brief técnico-analítico
 
-*Plantilla del curso completada para la dimensión **Aire**. Solo se modifica si el alcance cambia de verdad. Las cifras son las medidas en las corridas del repositorio; los contadores de la demo incluyen reproducciones (replay) y no equivalen a horas distintas de datos reales.*
-
 ---
 
 ## 1. Datos del equipo
