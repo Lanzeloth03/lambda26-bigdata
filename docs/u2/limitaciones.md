@@ -1,24 +1,21 @@
 # Limitaciones y mejoras
 
-## Limitaciones
-1. **Dato modelado, no medido** (CAMS, ≈ 45 km): no representa un punto concreto de la ciudad ni sirve para decisiones sanitarias.
-2. **Un punto y datos históricos**: se conoce el desempeño en 2023 (entrenamiento y prueba) y se cargaron 2024 y 2025 solo como volumen real en Kafka; no se validó contra otra ubicación.
-3. **Alerta relativa:** el episodio usa el p95 de 2023 (10,5 µg/m³); la norma peruana nunca se excedió en 2023, por eso la pregunta es un pronóstico.
-4. **Deriva estacional:** PM10 de enero ≈ 2,4 frente a agosto ≈ 10,0 µg/m³; el modelo se entrenó hasta octubre.
-5. **La fuente es horaria:** el procesamiento es continuo, pero el dato no es de baja latencia.
-6. **Pushgateway congela la última métrica** si el job muere; se cubre con el semáforo de frescura y la alerta de 10 min.
-7. **Kafka sin volumen persistente:** al recrear los contenedores se pierden los datos de los topics.
-8. **Un solo nodo y un broker:** sin alta disponibilidad; sin TLS/SASL ni autenticación en Pushgateway (laboratorio).
-9. **Semántica al menos una vez**, no exactly-once.
-10. **Los contadores de la demo incluyen reproducciones:** solo el MAE es comparable.
+## Limitaciones reconocidas
+1. **Fuente modelada, no medida.** Open-Meteo/CAMS usa una grilla de ~45 km; no es una estación. Sirve para validar arquitectura y modelo, no para vigilancia sanitaria.
+2. **Latencia de la fuente.** Los datos son horarios: el procesamiento es en tiempo real, pero el dato nuevo llega una vez por hora.
+3. **Un solo año de entrenamiento (2023) y una ubicación.** Hay estacionalidad (PM10 de enero ≈ 2,4 frente a agosto ≈ 10,0 µg/m³): el modelo debe reentrenarse.
+4. **Pregunta reformulada.** «¿Cuándo supera el umbral?» no tenía casos: en 2023 el ECA peruano nunca se excedió. Se cambió a pronóstico a +1 h comparado con persistencia.
+5. **Contadores inflados por la demo.** Eventos procesados, horas evaluadas y filas descartadas acumulan repeticiones del replay y de la API; las **métricas de error (MAE)** son las comparables.
+6. **Un solo nodo y un broker.** Spark local y Kafka sin replicación: no hay alta disponibilidad.
+7. **Pushgateway para un job continuo.** Se mitiga con el semáforo de frescura.
+8. **Costos ilustrativos.**
+9. **Reentrenamiento manual**, sin detección automática de deriva.
 
 ## Mejoras priorizadas
-| Prioridad | Mejora | Valor | Esfuerzo |
-|---|---|---|---|
-| 1 | Volumen persistente para Kafka y Pushgateway | Los datos sobreviven a un reinicio | Bajo |
-| 2 | Reentrenamiento programado con alerta de deriva automática | Mantiene el MAE en producción | Medio |
-| 3 | Fuente real: sensor de bajo costo o estación calibrada contra CAMS | Pasa de «validar arquitectura» a «medir» | Alto |
-| 4 | `/metrics` propio en vez de Pushgateway | Quita la métrica congelada | Medio |
-| 5 | Logs estructurados en JSON (nivel, componente, id de lote) | Mejor trazabilidad | Bajo |
-| 6 | Varias ubicaciones (claves y particiones distintas) | Escala | Alto |
-| 7 | Cruzar PM2.5 con temperatura y humedad | Nuevas variables explicativas | Medio |
+| Prioridad | Mejora | Beneficio |
+|---|---|---|
+| Alta | Estación real o más fuentes (SENAMHI, sensores de bajo costo) | Dato medido y no solo modelado |
+| Alta | Reentrenamiento programado y detección de deriva | Modelo al día con la estación |
+| Media | Exportador `/metrics` propio en lugar de Pushgateway | Detección de caída más fiable |
+| Media | Kafka con 3 brokers y Spark en clúster | Alta disponibilidad |
+| Baja | Notificaciones (correo/Telegram) desde las alertas | No depender de mirar el tablero |

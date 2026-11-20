@@ -1,0 +1,46 @@
+site_name: EcoData Aire — Unidad 1 y 2
+site_description: Sistema Big Data Lambda de calidad del aire (PM2.5) en Juliaca — Unidades 1 y 2
+site_author: Lanzeloth Vargas Marichi
+site_url: https://lanzeloth03.github.io/lambda26-bigdata/
+repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
+repo_name: Lanzeloth03/lambda26-bigdata
+
+theme:
+  name: material
+  language: es
+  palette:
+    primary: indigo
+    accent: amber
+  features:
+    - navigation.top
+    - navigation.sections
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Inicio: index.md
+  - Brief técnico-analítico: brief.md
+  - Producto Unidad 1:
+      - Producto U1: u1/producto.md
+      - Arquitectura: u1/arquitectura.md
+      - Dimensión Aire: u1/dimension-aire.md
+      - Resultados: u1/resultados.md
+  - Producto Unidad 2:
+      - Producto U2 (resumen): u2/producto.md
+      - Dimensión Aire: u2/dimension-aire.md
+      - Operación, escalado y costos: u2/operacion.md
+      - Contrato de eventos: u2/contrato-eventos.md
+      - Observabilidad y alertas: u2/observabilidad.md
+      - Preparación S12: u2/preparacion-s12.md
+      - Evidencias: u2/evidencias.md
+      - Limitaciones y mejoras: u2/limitaciones.md

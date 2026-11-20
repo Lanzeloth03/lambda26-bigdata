@@ -1,181 +1,113 @@
-# Brief técnico-analítico
+# Brief Técnico-Analítico del Proyecto Sello: EcoData
 
----
+Hito S2 del cronograma. Fija qué sistema Big Data construye el equipo durante el ciclo, antes de avanzar a S3. Se actualiza solo si el alcance cambia de verdad.
 
 ## 1. Datos del equipo
 
-| Campo | Valor |
-|---|---|
-| Nombre del equipo | EcoData — dimensión Aire |
-| Curso / sección | Big Data, sección G1, semestre 2026-2, UPeU campus Juliaca |
-| Docente | Abel Ángel Sullón Macalupú |
-| Repositorio | <https://github.com/Lanzeloth03/lambda26-bigdata> |
-| Documentación publicada | Sitio MkDocs de este repositorio (`mkdocs.yml`) |
-| Topics del repositorio | **Estado: configurar en GitHub** (incluye `grupo-<n>-ecodata-aire`) |
-| Alcance de la entrega | Unidad 1 (batch) y Unidad 2 (streaming) |
+- **Nombre del equipo:** EcoData
+- **Sección:** [completar]
+- **Repositorio (URL):** [https://github.com/Alahinticona/ecodata-juliaca-u1](https://github.com/Alahinticona/ecodata-juliaca-u1)
+- **Documentación publicada:** [https://alahinticona.github.io/ecodata-juliaca-u1/](https://alahinticona.github.io/ecodata-juliaca-u1/)
+- **Topics del repositorio:** a configurar por el propietario del repositorio: `big-data`, `juliaca`, `lambda-architecture`, `open-meteo`, `pyspark`, `spark-mllib`, y para U2 `kafka`, `spark-streaming`, `grafana`, `prometheus`, `streaming`. Falta el topic con el formato `grupo-<numero>-ecodata`: [completar el número de grupo].
 
-| Integrante | Rol / énfasis |
-|---|---|
-| Lanzeloth Vargas Marichi | Extremo a extremo de la dimensión Aire: batch/Spark (Medallion), productor y streaming con Kafka, observabilidad (Prometheus + Grafana) y modelo predictivo |
+**Integrantes:**
 
----
+| Integrante | Rol o énfasis previsto |
+|---|---|
+| Alahin Reyme Ticona Veliz | Dimensión clima. Énfasis en ingesta de eventos y modelado de series de tiempo (batch con Spark y streaming con Kafka) |
+| Lanzeloth Vargas Marichi | Dimensión aire. Énfasis en observabilidad (Grafana, Prometheus) y documentación |
+
+Este rol es un énfasis de coordinación a nivel de equipo, no un reemplazo del trabajo individual: cada integrante construye de extremo a extremo sus dos dimensiones, U1 y U2.
 
 ## 2. Dominio del proyecto
 
-| # | Elemento | Descripción |
-|---|---|---|
-| 1 | Nombre | EcoData Aire — alerta temprana de calidad del aire en Juliaca |
-| 2 | Problema | Juliaca no tiene monitoreo accesible de material particulado. Se necesita anticipar el PM2.5 de la próxima hora y avisar de episodios para reducir la exposición |
-| 3 | Dominio de datos | Ambiental / salud pública. PM2.5 y PM10 en µg/m³, una lectura por hora, punto (−15,5; −70,13) |
-| 4 | Variable de interés | Concentración de PM2.5 en la hora siguiente |
-| 5 | Pregunta central | ¿Un modelo entrenado con las últimas horas de PM2.5 y PM10 predice el PM2.5 de la próxima hora mejor que repetir la última hora (persistencia), tanto en batch como en vivo? |
-| 6 | Usuarios y actores | **Operador / autoridad ambiental local** (recibe el aviso de episodio); **analista de datos** (consulta tendencias y MAE); **población sensible** (beneficiaria de la alerta); **docente-revisor** (evalúa el pipeline) |
-| 7 | Arquitectura | **Lambda**: capa batch (histórico anual, Bronze→Silver→Gold) y capa de velocidad (eventos por Kafka + Spark Structured Streaming) con el **mismo modelo** y las mismas features. Ver [Arquitectura](u1/arquitectura.md) |
-| 8 | ¿Por qué Lambda y no Kappa? | El curso pide una capa batch con histórico reproducible (U1) y otra de flujo continuo (U2) comparables lado a lado. Con Lambda se mide el MAE de prueba del batch frente al MAE en vivo. Kappa reprocesaría todo desde el log y no permitiría esa comparación independiente |
-| 9 | Fuente batch | Open-Meteo Air Quality (modelo CAMS), año 2023, 8 760 h (`aq_juliaca_2023.json`) |
-| 10 | Fuente de eventos | La misma serie reproducida evento a evento hacia Kafka (`replay`), más la API en vivo cada hora. **Dato modelado (CAMS, rejilla ≈ 45 km), no una estación física: funciona como «sensor virtual»** |
-| 11 | Nota sobre batch = streaming | El histórico de U1 es la acumulación del mismo flujo que alimenta U2; por eso ambas capas son comparables y no hay training-serving skew (`aire_comun.features`) |
-| 12 | Continuidad | Dominio nuevo de este ciclo. Reutiliza la infraestructura Kafka/Spark/Grafana construida en S6–S11 |
+- **Nombre del proyecto:** EcoData: Sistema de Alerta Temprana de Calidad del Aire y Clima en Juliaca.
+- **Problema o necesidad que resuelve:** Juliaca, a más de 3 800 m de altitud, sufre heladas nocturnas y episodios de aire cargado de partículas, y la población no recibe un aviso anticipado. El sistema procesa las lecturas ambientales en bloque (histórico) y en vivo (cada hora), y pronostica la hora siguiente para anticipar el riesgo.
+- **Dominio de datos:** ambiental y meteorológico (sector público y salud ambiental). Se registran temperatura, humedad, viento, PM2.5 y PM10 por hora.
+- **Pregunta central de negocio:** ¿cómo anticipar las condiciones de riesgo ambiental (helada y mala calidad del aire) en Juliaca para emitir una alerta temprana?
+- **Usuarios y actores principales:** población y productores agropecuarios de Juliaca, autoridades de salud ambiental y de gestión de riesgos, y el sistema de alertas (topic `atmos-negocio`).
+- **Arquitectura Big Data prevista:** **Lambda.** La misma fuente alimenta la capa batch (U1: limpieza, Parquet particionado y modelo entrenado una vez) y la capa de velocidad (U2: Kafka y Spark Structured Streaming con inferencia en cada evento). Se eligió Lambda y no Kappa porque el histórico se reprocesa por lotes para entrenar y el flujo en vivo necesita baja latencia; ambos usan el mismo origen.
+- **Fuente de datos batch:** datos reales de Open-Meteo (API abierta, reanálisis y modelo CAMS para aire) de Juliaca: `juliaca_clima_historico.csv` y `juliaca_calidad_aire.csv`, guardados como Parquet particionado.
+- **Fuente de eventos en tiempo real:** las mismas variables de Open-Meteo, publicadas hora por hora a Kafka por un productor (`openmeteo_clima_a_kafka.py`, `openmeteo_a_kafka.py`) en los topics `atmos-clima` y `atmos-aire`. Los datos son modelados, no de un sensor propio; el ESP32 con HC-SR04 queda como fuente secundaria.
+- **¿Continúa un proyecto anterior?** No. Es un dominio nuevo.
 
----
+La fuente batch y la de streaming son el mismo origen visto en dos momentos: el histórico acumulado y la lectura en vivo.
 
-## 3. Dimensión de análisis
+## 3. Dimensiones de análisis y fuentes previstas
 
-### 3.1 Matriz de asignación
+Cada integrante aporta dos dimensiones de la misma pregunta central, y todas convergen en un solo tablero de Grafana.
 
-| Integrante | Dimensión | Indicador U1 | Indicador U2 | Fuente batch | Fuente streaming |
+**Tabla de asignación:**
+
+| Integrante | Tipo | Dimensión (como pregunta) | Indicador | Fuente batch | Fuente streaming |
 |---|---|---|---|---|---|
-| Lanzeloth | Aire | MAE de PM2.5 a +1 h (GBT) vs persistencia; PM2.5 mensual y diario | MAE en vivo y mejora % vs persistencia; episodios; frescura | `aq_juliaca_2023.json` | topic `atmos-aire` |
+| Alahin | Predictiva (U1, batch) | ¿Cuál es la temperatura de Juliaca y cuál se puede esperar según el histórico? | Temperatura media y mínima por mes; temperatura estimada por RandomForest | Histórico de temperatura de Open-Meteo | (mismo origen, acumulado; no se procesa en vivo) |
+| Alahin | Predictiva (U2, streaming) | ¿Cuál será la temperatura de la próxima hora y habrá helada? | Temperatura pronosticada en °C a +1 h; evento `clima.helada` | (mismo histórico, para entrenar) | Eventos horarios de Open-Meteo en `atmos-clima` |
+| Lanzeloth | Predictiva (U1, batch) | ¿Cómo ha sido la calidad del aire (PM2.5 y PM10) y qué riesgo se puede esperar? | Concentración media de PM2.5 y PM10; riesgo estimado por el modelo de U1 | Histórico de calidad del aire de Open-Meteo (CAMS) | (mismo origen, acumulado; no se procesa en vivo) |
+| Lanzeloth | Predictiva (U2, streaming) | ¿Cuál será el PM2.5 de la próxima hora y se entrará en episodio? | PM2.5 pronosticado en µg/m³ a +1 h; evento `aire.episodio` | (mismo histórico, para entrenar) | Eventos horarios de Open-Meteo en `atmos-aire` |
 
-### 3.2 Ficha de la dimensión
+Los paneles de las dos dimensiones U2 se muestran en el mismo Grafana (`S12 - EcoData U2: aire + clima`); las dimensiones U1 se documentan en sus notebooks.
 
-| Campo | Contenido |
-|---|---|
-| Tipo | Serie de tiempo horaria, regresión a +1 h |
-| Dimensión como pregunta | ¿Cómo se comporta el PM2.5/PM10 en Juliaca y qué tan bien se anticipa el PM2.5 de la hora siguiente? |
-| Decisión o acción que habilita | Avisar las horas con mayor probabilidad de episodio (PM2.5 > p95 de entrenamiento = 10,5 µg/m³) y priorizar reducción de exposición |
-| Se combina con | Nada por ahora. Cruzar con temperatura o humedad es una mejora futura, fuera de alcance |
+### Dimensión: Temperatura, ventana batch (integrante: Alahin Reyme Ticona Veliz)
 
-#### Unidad 1 — Batch
+- **Tipo:** predictiva sin tiempo real (U1, batch).
+- **Dimensión:** ¿cuál es la temperatura de Juliaca y cuál se puede esperar a partir del histórico? Aporta el nivel de frío que alimenta la pregunta central de riesgo.
+- **Indicadores:** temperatura media y mínima por mes; temperatura estimada por el modelo (RMSE 1,4351 °C).
+- **Decisión o acción que habilita:** identificar las épocas y horas de mayor riesgo de helada para planificar la protección.
+- **Instrumento batch:** `juliaca_clima_historico.csv` (Open-Meteo, por hora; temperatura, humedad y viento), guardado como Parquet particionado por año y mes.
+- **Instrumento streaming:** no aplica en vivo; es el mismo origen de U2, acumulado.
+- **Modelo predictivo:** regresión con RandomForest (Spark MLlib), entrenado una sola vez.
+- **Salida:** notebook `01_pipeline_completo_u1.ipynb` con tablas, gráficos y la predicción.
+- **Se combina con:** la dimensión de temperatura en vivo y la dimensión de aire en el tablero final.
+- **Requisitos iniciales:** 1) el sistema debe limpiar y particionar el histórico en Parquet; 2) el sistema debe entrenar y evaluar un modelo de temperatura; 3) el sistema debe reportar el error del modelo en el notebook.
 
-| # | Ítem | Contenido |
-|---|---|---|
-| 1 | Dimensión y relación con la pregunta | Aire es la variable de interés: se mide PM2.5/PM10 y se pronostica PM2.5 |
-| 2 | Indicadores | MAE a +1 h; PM2.5 mensual y diario; patrón horario |
-| 3 | Instrumento batch | PySpark: Bronze (JSON crudo) → Silver (limpieza, rangos físicos, nulos, duplicados) → Gold (Parquet **particionado por `mes`**, 12 particiones) |
-| 4 | Modelo | 8 modelos comparados; gana **GBT de profundidad 3** (MLlib). División cronológica 80/20, nunca aleatoria; la prueba empieza el 20-oct-2023 |
-| 5 | Resultado medido | MAE modelo **0,4635 µg/m³** vs persistencia **0,6871** (**−32,5 %**) |
-| 6 | Salida | Notebooks S2–S4 e integrado; Gold Parquet; modelo guardado; figuras de MAE, mensual y diario |
+### Dimensión: Temperatura, ventana en vivo (integrante: Alahin Reyme Ticona Veliz)
 
-#### Unidad 2 — Streaming
+- **Tipo:** predictiva con tiempo real (U2, streaming).
+- **Dimensión:** ¿cuál será la temperatura de la próxima hora y habrá helada? Responde a la pregunta central con el estado de frío en vivo.
+- **Indicadores:** temperatura pronosticada a +1 h; error medio absoluto (MAE) del modelo contra la persistencia (0,536 °C contra 0,982 °C, −45,5 % en 757 horas en vivo; en prueba 0,537 contra 1,096 °C, −51,0 %); heladas detectadas.
+- **Decisión o acción que habilita:** publicar `clima.helada` en `atmos-negocio` cuando la temperatura baja de 0 °C, para alertar a quien debe proteger cultivos.
+- **Instrumento batch:** el mismo histórico, para entrenar.
+- **Instrumento streaming:** topic `atmos-clima` en Kafka (esquema: `tipoEvento`, `sensorId`, `temp`, `hum`, `viento`, `origen`, `timestamp`), alimentado por Open-Meteo.
+- **Modelo predictivo:** GBTRegressor sobre el cambio de temperatura a una hora, aplicado en vivo con Spark Structured Streaming (ventana de 6 h, watermark de 2 h, checkpoint).
+- **Salida:** sección «Dimensión Clima» del Grafana común, con temperatura real contra pronóstico, MAE contra persistencia y descartes del watermark.
+- **Se combina con:** la dimensión de aire en el mismo tablero.
+- **Requisitos iniciales:** 1) el sistema debe ingerir eventos de temperatura por Kafka con un contrato de esquema; 2) el sistema debe pronosticar la hora siguiente y medir su error contra la persistencia; 3) el sistema debe descartar los datos tardíos con watermark y exponer ese contador en Grafana.
 
-| # | Ítem | Contenido |
-|---|---|---|
-| 7 | Indicador | ¿El modelo sigue ganando a la persistencia en vivo? MAE a +1 h, mejora %, horas evaluadas, episodios, filas descartadas, frescura |
-| 8 | Instrumento streaming | Open-Meteo → Kafka (`atmos-aire`, `atmos-negocio`) → Spark Structured Streaming: ventana fija de **6 h**, watermark **2 h**, trigger 5 s, checkpoint propio, inferencia en `foreachBatch` idempotente por `batchId` |
-| 9 | Modelo | GBT reentrenado por `entrenar_pm25.py` (pérdida absoluta, `maxDepth=4`, `maxIter=80`; solo se guarda si gana a la persistencia: **0,473 vs 0,687, −31,1 %** en prueba cronológica). Usa **la misma función de features** (`aire_comun.features`, 8 variables, ventana de 24 h) que el batch, y se compara con la persistencia cuando llega el dato real |
-| 10 | Resultado medido | En vivo: **0,422 vs 0,567** (**−25,5 %**, 761 h). Integración: **0,4551 vs 0,6524** (**−30,2 %**, 143 h, 19/19 compuertas) |
-| 11 | Salida | Tablero Grafana de 16 paneles (último PM2.5, predicción +1 h, MAE modelo vs persistencia, mejora %, semáforo de frescura, descartes por watermark, mensajes por topic) |
-| 12 | Observabilidad | Pushgateway → Prometheus → Grafana; 5 reglas de alerta (`obs/prometheus/alerts.yml`): `PushgatewayCaido`, `AireSinEventosNuevos`, `AireModeloNoSuperaPersistencia`, `DescartesPorWatermarkCreciendo`, `EpisodioDeAire` |
+### Dimensión: Calidad del aire, ventana batch (integrante: Lanzeloth Vargas Marichi)
 
-#### Requisitos iniciales
+- **Tipo:** predictiva sin tiempo real (U1, batch).
+- **Dimensión:** ¿cómo ha sido la concentración de PM2.5 y PM10 en Juliaca y qué riesgo se puede esperar? Aporta el nivel de contaminación del aire a la pregunta central.
+- **Indicadores:** concentración media de PM2.5 y PM10 por periodo; PM2.5 pronosticado a +1 h con regresión lineal de Spark MLlib (RMSE 1,891 y R² 0,891 sobre 464 horas de prueba; persistencia: RMSE 1,944).
+- **Decisión o acción que habilita:** identificar los periodos de aire más cargado y orientar las recomendaciones a la población.
+- **Instrumento batch:** `juliaca_calidad_aire.csv` (Open-Meteo, modelo CAMS, por hora; PM2.5 y PM10), guardado como Parquet particionado.
+- **Instrumento streaming:** no aplica en vivo; es el mismo origen de U2, acumulado.
+- **Modelo predictivo:** regresión de PM2.5 a +1 h con Spark MLlib (se compararon regresión lineal, RandomForest y GBT frente a la persistencia), entrenada una sola vez; el nivel de riesgo (Bajo, Moderado, Alto) se deriva de los umbrales 25 y 50 µg/m³.
+- **Salida:** script `s12/entrena_aire_u1.py` y métricas en `s12/aire_u1_metricas.json`, con la documentación en la página «Dimensión Aire (Lanzeloth)».
+- **Se combina con:** la dimensión de aire en vivo y la dimensión de clima en el tablero final.
+- **Requisitos iniciales:** 1) el sistema debe limpiar la calidad del aire y guardarla en Parquet; 2) el sistema debe entrenar y evaluar un modelo de riesgo; 3) el sistema debe reportar sus métricas en el notebook.
 
-1. Publicar cada lectura horaria como evento `aire.lectura` en Kafka, con clave `sensorId` para conservar el orden.
-2. Validar esquema y rango físico (PM ≥ 0) antes de procesar.
-3. Pronosticar el PM2.5 de la próxima hora y compararlo con la persistencia cuando llegue el dato real.
-4. Descartar y **contar** los datos tardíos fuera de 2 h de watermark.
-5. Publicar `aire.episodio` en `atmos-negocio` cuando PM2.5 supere el p95 de entrenamiento.
-6. Reanudar desde checkpoint tras un reinicio sin duplicar métricas.
-7. Bloquear la ejecución integrada si falla una compuerta de calidad y dejar un manifiesto.
-8. Declarar abiertamente que la fuente es modelada y horaria.
+### Dimensión: Calidad del aire, ventana en vivo (integrante: Lanzeloth Vargas Marichi)
 
-### 3.3 Alcance en conjunto
+- **Tipo:** predictiva con tiempo real (U2, streaming).
+- **Dimensión:** ¿cuál será el PM2.5 de la próxima hora y se entrará en episodio? Responde a la pregunta central con el estado del aire en vivo. La pregunta original («¿cuándo se superará el umbral?») se reformuló: en 2023 el PM2.5 nunca superó la norma ECA (p95 ≈ 10,5 µg/m³), así que no había casos positivos que medir.
+- **Indicadores:** PM2.5 pronosticado a +1 h; MAE del modelo contra la persistencia (0,422 contra 0,567 µg/m³, −25,5 % en 761 horas en vivo; en prueba 0,473 contra 0,687, −31,1 %); episodios detectados.
+- **Decisión o acción que habilita:** publicar `aire.episodio` en `atmos-negocio` cuando el PM2.5 supera el p95 de entrenamiento, para activar un aviso.
+- **Instrumento batch:** el mismo histórico, para entrenar.
+- **Instrumento streaming:** topic `atmos-aire` en Kafka, alimentado por Open-Meteo (CAMS).
+- **Modelo predictivo:** GBTRegressor sobre el cambio de PM2.5 a una hora, aplicado en vivo con Spark Structured Streaming. La regresión lineal se descartó porque pierde contra la persistencia (0,742).
+- **Salida:** sección «Dimensión Aire» del Grafana común, con PM2.5 real contra pronóstico, MAE contra persistencia, eventos y descartes del watermark.
+- **Se combina con:** la dimensión de clima en el mismo tablero.
+- **Requisitos iniciales:** 1) el sistema debe ingerir eventos de PM2.5 y PM10 por Kafka; 2) el sistema debe pronosticar la hora siguiente y publicar episodios en `atmos-negocio`; 3) el sistema debe exponer en Grafana el error del modelo, el volumen y los descartes.
 
-| Sí cubre | No cubre |
-|---|---|
-| Pipeline batch + streaming de PM2.5/PM10 de un punto de Juliaca | Red de estaciones |
-| Pronóstico a +1 h con baseline de persistencia | Pronóstico a más de 1 h |
-| Eventos de sensor (`aire.lectura`) y de negocio (`aire.episodio`) | Otros contaminantes (O₃, NO₂) |
-| Observabilidad con alertas y semáforo de frescura | Validación contra mediciones de una estación real |
-| Integración reproducible con compuertas y manifiesto | Alerta normativa: el ECA nunca se excedió en 2023, por eso la pregunta es un pronóstico y no una alerta de norma |
-| Costo y escalado de referencia | Exactly-once de punta a punta (se ofrece *al menos una vez* con resultados idempotentes) |
-| | Despliegue en la nube |
+### Alcance del proyecto en conjunto
 
-**Costo de referencia.** Entorno actual (laptop, Docker): US$ 0. Plantilla del curso 3 × t3.medium: US$ 91,15/mes. Alternativa ajustada al volumen, 1 × t3.medium: ≈ US$ 30,4/mes. Son cifras de referencia a verificar con la calculadora del proveedor. Detalle en [Operación, escalado y costos](u2/operacion.md).
+- **Qué SÍ cubre:** ingesta batch y en vivo desde Open-Meteo, procesamiento con Spark (batch y Structured Streaming), pronóstico a una hora de temperatura y PM2.5, eventos de negocio (`clima.helada`, `aire.episodio`), tablero único en Grafana, costo de referencia (US$ 91,15 al mes con 3 × t3.medium) y documentación publicada.
+- **Qué NO cubre (fuera de alcance):** sensores propios en producción (el ESP32 es secundario); pronóstico a más de una hora; garantía exactly-once de punta a punta; varias estaciones o ubicaciones; alerta conjunta de clima y aire; despliegue en la nube y empaquetado DataOps (se trabajan en U3).
 
-**Pendiente para siguientes sesiones.** Volumen persistente para Kafka, `/metrics` propio en lugar de Pushgateway.
-
-### 3.4 Contrato de eventos y topics
-
-| Elemento | Definición |
-|---|---|
-| `aire.lectura` (sensor) | `{"tipoEvento","sensorId":"openmeteo-cams-juliaca","pm25","pm10","origen","timestamp"}`; `timestamp` = hora del dato en ms (tiempo de evento); ≈ 150 bytes; periódico, tamaño fijo |
-| `aire.episodio` (negocio) | Se emite cuando PM2.5 > p95 de entrenamiento (10,5 µg/m³); irregular, nace de una regla y es el que dispara la acción |
-| Campo `origen` | `openmeteo-replay`, `openmeteo-cams` (API en vivo) o `demo-tardio` (prueba del watermark) |
-| Clave de partición | `sensorId`, para conservar el orden de una misma fuente |
-| Topics | `atmos-aire` (telemetría), `atmos-negocio` (eventos de negocio), `atmos-aire-demo` (demostración), `atmos-aire-hist-2024` y `atmos-aire-hist-2025` (histórico real adicional), `atmos-aire-int-*` (corridas de integración) |
-| Entrega | *Al menos una vez* (`acks="all"` + checkpoint), con resultados idempotentes por lote; **no** exactly-once |
-| Validación | Esquema y rango físico (PM ≥ 0); datos fuera de rango se rechazan o marcan |
-
-### 3.5 Datos y calidad
-
-| Característica | Valor |
-|---|---|
-| Filas batch | 8 760 (365 × 24), sin huecos |
-| PM2.5 | media 5,17 · mediana 4,80 · p95 10,80 · máx 35,2 µg/m³ |
-| PM10 | mediana 7,10 · p95 16,10 µg/m³ |
-| Estacionalidad | PM10 enero ≈ 2,4 vs agosto ≈ 10,0 µg/m³ |
-| Excedencias ECA Perú | 0 h (por eso la pregunta es un pronóstico, no una alerta de norma) |
-| Partición temporal | Entrena hasta 2023-10-19 (6 988 filas); prueba desde 2023-10-20 (1 747 filas) |
-| Reglas de calidad | Sin duplicados de hora, sin negativos, continuidad horaria ≥ 99 %, mediana plausible |
-
-### 3.6 Indicadores y umbrales operativos
-
-| Dimensión | Métrica (Grafana / Prometheus) | Umbral |
-|---|---|---|
-| Frescura | Segundos desde el último push (`time() - push_time_seconds`) | Verde < 120 s · naranja ≥ 120 s · rojo ≥ 600 s; alerta `AireSinEventosNuevos` a 10 min |
-| Modelo | `mae_modelo`, `mae_persistencia`, `mejora_pct` | Alerta `AireModeloNoSuperaPersistencia` si `mejora_pct` < 0 por 10 min |
-| Streaming | `filas_descartadas_watermark_total`, `estado_filas`, `watermark_seconds` | Cualquier descarte se revisa; sube a propósito con `demo-tardio` |
-| Negocio | `episodios_total`, `aire.episodio` | PM2.5 > 10,5 µg/m³ |
-| Plataforma | `healthcheck` de Docker, `PushgatewayCaido` | Servicio `(healthy)` |
-
-### 3.7 Riesgos y limitaciones declaradas
-
-| Riesgo / limitación | Mitigación o postura |
-|---|---|
-| El dato es modelado (CAMS, ≈ 45 km), no una estación | Se declara abiertamente; el valor es de arquitectura y método, no de vigilancia sanitaria |
-| La fuente es horaria: el procesamiento es continuo, el dato no es de baja latencia | Se dice así en la sustentación |
-| Pushgateway congela la última métrica si el job muere | Semáforo de frescura y alerta de 10 min sin lote; mejora futura: `/metrics` propio |
-| Contadores de la demo incluyen reproducciones (replay) | El MAE es lo comparable; los contadores no equivalen a horas distintas |
-| Kafka sin volumen persistente (un solo broker); ver [Limitaciones](u2/limitaciones.md) | Los datos se pierden al recrear el contenedor; mejora planificada |
-| Un solo nodo y un broker | Criterios de escalado en [Operación, escalado y costos](u2/operacion.md) |
-
-### 3.8 Dónde verificar cada afirmación
-
-| Afirmación | Evidencia en el repositorio |
-|---|---|
-| Gold particionado por mes y GBT ganador | [Producto U1](u1/producto.md), `u1-aire_corrida/` |
-| Streaming con ventana, watermark y checkpoint | [Producto U2](u2/producto.md), `s12-aire/scripts/s12_streaming_aire.py` |
-| Métricas en vivo y alertas | Grafana `S12 – Calidad del aire`, [Observabilidad y alertas](u2/observabilidad.md) |
-| Integración con 19 compuertas | [Evidencias](u2/evidencias.md), `u3-integracion/manifiestos/` |
-| Costos y escalado | [Operación, escalado y costos](u2/operacion.md) |
-| Resultados U1 y evidencias de U2 | [Resultados](u1/resultados.md), [Evidencias](u2/evidencias.md) |
-
-### 3.9 Preguntas probables y respuesta corta
-
-| Pregunta | Respuesta |
-|---|---|
-| ¿Por qué comparar contra persistencia? | «La próxima hora será igual que esta» es difícil de superar en series de tiempo; si el modelo no la supera, no aporta |
-| ¿Qué hace el watermark ante un dato tardío? | Con 2 h, un dato con menos retraso entra a su ventana; con más, se descarta y se cuenta. Sin watermark Spark guardaría el estado para siempre |
-| ¿Es tiempo real? | El procesamiento sí; la fuente es horaria y modelada |
-| ¿Es exactly-once? | No: al menos una vez, con resultados idempotentes por lote |
-| ¿Por qué cambiaron la pregunta? | El ECA nunca se excedió en 2023; el pronóstico a +1 h es medible en todas las horas |
-| ¿Por qué Lambda? | Histórico reproducible (batch) y flujo continuo (speed) con el mismo modelo, comparables lado a lado |
-
----
+**Pendiente para las siguientes sesiones:** la infraestructura compartida (Spark, Kafka, almacenamiento analítico, observabilidad con Grafana y estimación de costos operacionales, prácticas de DataOps) sigue el patrón que enseña cada sesión sobre `lambda26`; se construye en clase, sesión por sesión, sobre las dimensiones y fuentes de esta ficha.
 
 ## 4. Aprobación
 
-| Docente | Fecha | Visto |
-|---|---|---|
-| Abel Ángel Sullón Macalupú | *pendiente* | *pendiente de visto del docente* |
+- **Docente:** [completar]
+- **Fecha:** [completar]

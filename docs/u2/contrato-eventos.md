@@ -1,39 +1,31 @@
-# Contrato de eventos
+# Contrato de eventos (S6 y S7)
 
-El contrato vive en un solo lugar del código (`s12-aire/scripts/aire_comun.py`), de modo que productor, Spark y pruebas usan el mismo esquema.
+Los eventos se publican como JSON con **esquema versionado** (carpeta `schemas/`). Un cambio incompatible sería `v2` en un topic nuevo.
 
-## Evento de sensor: `aire.lectura`
-```json
-{"tipoEvento":"aire.lectura","sensorId":"openmeteo-cams-juliaca",
- "pm25":6.5,"pm10":9.4,"origen":"openmeteo-replay","timestamp":1701388800000}
-```
-| Campo | Tipo | Significado |
+| Topic | Tipo | Esquema | Clave | Frecuencia |
+|---|---|---|---|---|
+| `atmos-aire` | Telemetría de sensor (modelada) | `schemas/atmos-aire-v1.schema.json` | `sensorId` | 1 por hora |
+| `atmos-clima` | Telemetría de sensor (modelada) | `schemas/atmos-clima-v1.schema.json` | `sensorId` | 1 por hora |
+| `atmos-negocio` | **Evento empresarial derivado** | ver abajo | `sensorId` | solo cuando ocurre |
+
+## Eventos de negocio (`atmos-negocio`)
+Se generan en Spark cuando se cumple una regla del negocio, no vienen de la fuente:
+
+| `tipoEvento` | Regla | Para qué sirve |
 |---|---|---|
-| `tipoEvento` | texto | Siempre `aire.lectura` |
-| `sensorId` | texto | Identifica la fuente; es la **clave** del mensaje en Kafka |
-| `pm25` | decimal | PM2.5 en µg/m³ (≥ 0) |
-| `pm10` | decimal | PM10 en µg/m³ (≥ 0) |
-| `origen` | texto | `openmeteo-replay` (reproducción), `openmeteo-cams` (API en vivo) o `demo-tardio` (prueba del watermark) |
-| `timestamp` | entero | Hora del dato en milisegundos (**tiempo de evento**, no de llegada) |
+| `aire.episodio` | PM2.5 de la hora > p95 del entrenamiento (10,5 µg/m³) | Alerta temprana de calidad del aire |
+| `clima.helada` | Temperatura < 0 °C | Alerta de helada (riesgo agrícola) |
 
-Tamaño ≈ 150 bytes; periódico (1 por hora) y de tamaño constante.
+## Diferencia entre un evento de sensor y uno de negocio
+- **Sensor (`aire.lectura`, `clima.lectura`):** periódico, tamaño fijo, se valida por rango físico (PM ≥ 0; temperatura −60 a 60 °C; humedad 0–100 %).
+- **Negocio (`aire.episodio`, `clima.helada`):** irregular, nace de una decisión, y es lo que consume quien actúa (alerta).
 
-## Evento de negocio: `aire.episodio`
-Se publica en `atmos-negocio` cuando PM2.5 supera el p95 del entrenamiento (10,5 µg/m³). Es irregular y lo origina una regla, no la fuente.
+## Garantías
+- **Al menos una vez**, con resultados idempotentes por hora: el estado se calcula por la hora del dato (`timestamp`), no por el momento de llegada.
+- **Orden:** la clave `sensorId` envía todos los eventos de una ubicación a la misma partición.
+- **Datos tardíos:** más de 2 h de retraso respecto al watermark se descartan y se cuentan (`filas_descartadas_watermark_total`).
+- No se afirma «exactamente una vez».
 
-## Topics
-| Topic | Contenido |
-|---|---|
-| `atmos-aire` | Telemetría `aire.lectura` |
-| `atmos-negocio` | Eventos `aire.episodio` |
-| `atmos-aire-demo` | Reproducción de la demostración |
-| `atmos-aire-hist-2024`, `atmos-aire-hist-2025` | Histórico real adicional cargado a Kafka |
-| `atmos-aire-int-*` | Una corrida de integración por topic |
-
-Todos con 1 partición y factor de replicación 1 (un broker en Docker).
-
-## Reglas
-- **Clave** = `sensorId`: los eventos de una misma fuente conservan el orden.
-- **Validación**: esquema y rango físico (PM ≥ 0); lo que no cumple se rechaza o se marca.
-- **Entrega**: `acks="all"` en el productor y checkpoint en Spark → al menos una vez, con resultados idempotentes por lote.
-- **Tiempo**: el procesamiento usa `timestamp` (tiempo de evento) para ventanas y watermark.
+## Verificación en vivo
+1. Kafka UI → `atmos-aire` → Messages: se ve la clave y el JSON.
+2. Notebook, sección 4: conteo de eventos y últimos mensajes.

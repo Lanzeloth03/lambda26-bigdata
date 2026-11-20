@@ -1,46 +1,44 @@
-site_name: EcoData Aire — Unidad 1 y 2
-site_description: Sistema Big Data Lambda de calidad del aire (PM2.5) en Juliaca — Unidades 1 y 2
-site_author: Lanzeloth Vargas Marichi
+site_name: EcoData - Unidad 1 y 2
+site_description: Sistema de Alerta Temprana de Calidad del Aire y Clima - Juliaca
+site_author: Equipo EcoData
 site_url: https://lanzeloth03.github.io/lambda26-bigdata/
 repo_url: https://github.com/Lanzeloth03/lambda26-bigdata
 repo_name: Lanzeloth03/lambda26-bigdata
 
 theme:
   name: material
-  language: es
   palette:
     primary: indigo
-    accent: amber
+    accent: light blue
   features:
     - navigation.top
-    - navigation.sections
     - content.code.copy
-
-markdown_extensions:
-  - admonition
-  - tables
-  - toc:
-      permalink: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
 
 nav:
   - Inicio: index.md
   - Brief técnico-analítico: brief.md
   - Producto Unidad 1:
-      - Producto U1: u1/producto.md
-      - Arquitectura: u1/arquitectura.md
-      - Dimensión Aire: u1/dimension-aire.md
-      - Resultados: u1/resultados.md
+      - Producto U1: u1-producto.md
+      - Arquitectura: arquitectura.md
+      - Dimensión Clima (Alahin): dimension-alahin.md
+      - Dimensión Aire (Lanzeloth): dimension-lanzeloth.md
+      - Dimensión Aire ampliada (Lanzeloth): dimension-lanzeloth-ampliada.md
+      - Resultados: resultados.md
   - Producto Unidad 2:
-      - Producto U2 (resumen): u2/producto.md
-      - Dimensión Aire: u2/dimension-aire.md
+      - Producto U2 (resumen): u2/index.md
+      - Dimensión Aire (Lanzeloth): u2/dimension-aire.md
+      - Dimensión Clima (Alahin): u2/dimension-clima.md
       - Operación, escalado y costos: u2/operacion.md
       - Contrato de eventos: u2/contrato-eventos.md
-      - Observabilidad y alertas: u2/observabilidad.md
-      - Preparación S12: u2/preparacion-s12.md
+      - Observabilidad y alertas: u2/observabilidad-alertas.md
+      - Preparación S12: u2/s12-preparacion.md
       - Evidencias: u2/evidencias.md
       - Limitaciones y mejoras: u2/limitaciones.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - attr_list
