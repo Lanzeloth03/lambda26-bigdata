@@ -13,7 +13,6 @@ theme:
     accent: amber
   features:
     - navigation.top
-    - navigation.sections
     - content.code.copy
 
 nav:
