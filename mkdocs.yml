@@ -17,31 +17,38 @@ theme:
     - content.code.copy
 
 nav:
-  - 1. Inicio: index.md
-  - Brief técnico-analítico: brief.md
-  - 2. Instalación y ejecución: ejecucion.md
-  - 3. Uso del sistema: uso.md
-  - 4. Arquitectura: arquitectura.md
-  - 5. Módulos y funcionalidades: modulos.md
-  - 6. Datos: datos.md
-  - 7. Pruebas y evidencias:
-      - Pruebas y evidencias: pruebas.md
-      - Corridas de integración: evidencias/corridas.md
-      - Hardening (lista de comprobación): hardening.md
-      - No regresión y riesgos aceptados: noregresion-riesgos.md
-      - Bitácora de la revisión técnica: bitacora.md
-      - Demo end-to-end y plan B: demo.md
-  - 8. Equipo y aporte individual: equipo.md
-  - 9. Repositorio y estándares: repositorio.md
-  - 10. Limitaciones y mejoras: limitaciones.md
-  - Proyecto Sello:
+  - Inicio: index.md
+  - Guía de Proyecto Sello:
+      - Brief técnico-analítico: brief.md
       - Matriz de trazabilidad: trazabilidad.md
-      - Producto U1: u1-producto.md
-      - Producto U2: u2-producto.md
-      - Producto U3 (Producto Final): u3-producto.md
+      - Arquitectura: arquitectura.md
+      - Datos: datos.md
+      - Módulos y funcionalidades: modulos.md
+      - Instalación y ejecución: ejecucion.md
+      - Uso del sistema: uso.md
+      - Pruebas y evidencias: pruebas.md
       - Observabilidad y costos: observabilidad-costos.md
       - Decisiones técnicas: decisiones.md
+      - Equipo y aporte individual: equipo.md
+      - Repositorio y estándares: repositorio.md
+      - Limitaciones y mejoras: limitaciones.md
       - Informe del proyecto: informe.md
+  - 1. Arquitecturas Big Data y ETL batch distribuido:
+      - Producto U1: u1-producto.md
+      - S1 - Arquitectura Big Data: sesiones/S01.md
+      - S2 - Fundamentos PySpark: sesiones/S02.md
+      - S3 - Procesamiento y calidad de datos: sesiones/S03.md
+      - S4 - ML distribuido con MLlib: sesiones/S04.md
+      - S5 - Evaluación de la Unidad I: sesiones/S05.md
+  - 2. Sistema Big Data en tiempo real:
+      - Producto U2: u2-producto.md
+      - S6 - Ingesta de eventos empresariales: sesiones/S06.md
+      - S7 - Ingesta de eventos IoT/sensores: sesiones/S07.md
+      - S8 - Streaming con Spark: sesiones/S08.md
+      - S9 - Observabilidad con Grafana y costos: sesiones/S09.md
+      - S10 - Series de tiempo e inferencia: sesiones/S10.md
+      - S11 - BI/ML distribuido con Spark: sesiones/S11.md
+      - S12 - Evaluación de la Unidad II: sesiones/S12.md
 
 markdown_extensions:
   - tables
