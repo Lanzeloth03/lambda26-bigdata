@@ -28,7 +28,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_pm25_ultimo",
+     "expr": "lambda26_aire_pm25_ultimo{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -81,7 +81,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_pred_pm25_proxima_hora",
+     "expr": "lambda26_aire_pred_pm25_proxima_hora{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -134,7 +134,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_mae_modelo",
+     "expr": "lambda26_aire_mae_modelo{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -187,7 +187,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_mae_persistencia",
+     "expr": "lambda26_aire_mae_persistencia{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -240,7 +240,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_mejora_pct",
+     "expr": "lambda26_aire_mejora_pct{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -293,7 +293,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_n_evaluadas",
+     "expr": "lambda26_aire_n_evaluadas{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -346,7 +346,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_episodios_total",
+     "expr": "lambda26_aire_episodios_total{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -399,7 +399,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_filas_descartadas_watermark_total",
+     "expr": "lambda26_aire_filas_descartadas_watermark_total{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": ""
     }
@@ -452,7 +452,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_pm25_ultimo",
+     "expr": "lambda26_aire_pm25_ultimo{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": "real (última hora)"
     },
@@ -461,7 +461,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_pred_pm25_proxima_hora",
+     "expr": "lambda26_aire_pred_pm25_proxima_hora{job=\"lambda26_aire\"}",
      "refId": "B",
      "legendFormat": "predicción +1 h"
     },
@@ -470,7 +470,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_umbral_p95",
+     "expr": "lambda26_aire_umbral_p95{job=\"lambda26_aire\"}",
      "refId": "C",
      "legendFormat": "umbral p95"
     }
@@ -502,7 +502,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_mae_modelo",
+     "expr": "lambda26_aire_mae_modelo{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": "modelo GBT"
     },
@@ -511,7 +511,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_mae_persistencia",
+     "expr": "lambda26_aire_mae_persistencia{job=\"lambda26_aire\"}",
      "refId": "B",
      "legendFormat": "persistencia"
     }
@@ -543,7 +543,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_ventana_pm25_prom",
+     "expr": "lambda26_aire_ventana_pm25_prom{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": "promedio"
     },
@@ -552,7 +552,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_ventana_pm25_max",
+     "expr": "lambda26_aire_ventana_pm25_max{job=\"lambda26_aire\"}",
      "refId": "B",
      "legendFormat": "máximo"
     }
@@ -584,7 +584,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_estado_filas",
+     "expr": "lambda26_aire_estado_filas{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": "filas de estado"
     },
@@ -593,7 +593,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_filas_descartadas_watermark_total",
+     "expr": "lambda26_aire_filas_descartadas_watermark_total{job=\"lambda26_aire\"}",
      "refId": "B",
      "legendFormat": "descartadas (acum.)"
     }
@@ -686,7 +686,7 @@
       "type": "prometheus",
       "uid": "${DS_PROMETHEUS}"
      },
-     "expr": "lambda26_aire_eventos_total",
+     "expr": "lambda26_aire_eventos_total{job=\"lambda26_aire\"}",
      "refId": "A",
      "legendFormat": "eventos"
     }

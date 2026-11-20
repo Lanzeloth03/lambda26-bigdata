@@ -3,6 +3,8 @@ DS = {"type": "prometheus", "uid": "${DS_PROMETHEUS}"}
 pid = [0]
 def panel(kind, title, exprs, x, y, w=6, h=4, unit="none", legends=None, dec=None):
     pid[0] += 1
+    # filtra por job: las corridas de integración (lambda26_aire_int) no deben mezclarse con el flujo en vivo
+    exprs = [e if ("{" in e or "(" in e) else e + '{job="lambda26_aire"}' for e in exprs]
     t = [{"datasource": DS, "expr": e, "refId": chr(65 + i), "legendFormat": (legends or [""] * 9)[i]} for i, e in enumerate(exprs)]
     d = {"id": pid[0], "type": kind, "title": title, "datasource": DS, "targets": t,
          "gridPos": {"x": x, "y": y, "w": w, "h": h}, "fieldConfig": {"defaults": {"unit": unit}, "overrides": []}}
