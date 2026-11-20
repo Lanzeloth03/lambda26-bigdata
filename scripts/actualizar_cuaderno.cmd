@@ -3,7 +3,9 @@ REM Reemplaza en el contenedor (Jupyter) el cuaderno 12_ecodata_u2.ipynb por la 
 cd /d "%~dp0.."
 for /f "delims=" %%P in ('docker exec lambda26-pyspark find / -path /proc -prune -o -name 12_ecodata_u2.ipynb -print') do (
   echo Reemplazando %%P
+  docker exec lambda26-pyspark cp %%P /tmp/12_ecodata_u2_anterior.ipynb
   docker cp s12-ecodata\12_ecodata_u2.ipynb lambda26-pyspark:%%P
 )
 docker exec lambda26-pyspark ls -la /tmp/s12/eval_anios.json /tmp/s12/latencia_demo.py
+echo Respaldo del cuaderno anterior en el contenedor: /tmp/12_ecodata_u2_anterior.ipynb
 echo LISTO. Cierra la pestana del cuaderno en Jupyter sin guardar y vuelve a abrirlo.
