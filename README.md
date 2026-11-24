@@ -20,7 +20,7 @@ Luego abre Jupyter (<http://localhost:4488>) → `13_integracion_dataops.ipynb` 
 | U2 Streaming | Kafka → Spark → Pushgateway → Prometheus → Grafana, alertas | `s12-aire/`, `kafka/`, `obs/` |
 | U3 Integración | cuaderno con 19 compuertas + manifiesto, tablero, hardening | `u3-integracion/`, `scripts/`, `docs/` |
 
-Topics del repositorio: `campus-juliaca semestre-2026-2 linea-cdia tipo-ps bigdata seccion-g1 grupo-<n>-ecodata-aire`.
+Topics del repositorio: `campus-juliaca semestre-2026-2 linea-cdia tipo-ps bigdata seccion-g1 grupo-5-ecodata-aire`.
 
 ---
 

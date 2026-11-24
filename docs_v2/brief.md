@@ -11,7 +11,7 @@
 | Docente | Abel Ángel Sullón Macalupú |
 | Repositorio | <https://github.com/Lanzeloth03/lambda26-bigdata> |
 | Documentación publicada | Sitio MkDocs de este repositorio (`mkdocs.yml`) |
-| Topics del repositorio | **Estado: configurar en GitHub** (incluye `grupo-<n>-ecodata-aire`) |
+| Topics del repositorio | **Estado: configurar en GitHub** (incluye `grupo-5-ecodata-aire`) |
 | Alcance de la entrega | Unidad 1 (batch) y Unidad 2 (streaming) |
 
 | Integrante | Rol / énfasis |

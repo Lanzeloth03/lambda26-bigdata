@@ -4,7 +4,7 @@
 
 ## Topics académicos (Settings → About → Topics)
 ```
-campus-juliaca  semestre-2026-2  linea-cdia  tipo-ps  bigdata  seccion-g1  grupo-<n>-ecodata-aire
+campus-juliaca  semestre-2026-2  linea-cdia  tipo-ps  bigdata  seccion-g1  grupo-5-ecodata-aire
 ```
 Reemplaza `<n>` por el número de grupo asignado por el docente (patrón `grupo-<número>-<nombre-proyecto>`).
 
