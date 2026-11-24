@@ -14,8 +14,9 @@ API = ("https://air-quality-api.open-meteo.com/v1/air-quality?latitude={lat}&lon
        "&hourly=pm10,pm2_5&past_days=2&forecast_days=1&timezone=GMT")
 
 
-def desde_api():
-    with urllib.request.urlopen(API.format(lat=LAT, lon=LON), timeout=30) as r:
+def desde_api(dias=2):
+    """Horas reales ya ocurridas de los ultimos `dias` dias (la API permite hasta 92)."""
+    with urllib.request.urlopen(API.replace("past_days=2", f"past_days={int(dias)}").format(lat=LAT, lon=LON), timeout=30) as r:
         h = json.load(r)["hourly"]
     ahora = int(time.time() * 1000)
     return sorted((a_ms(t), a, b) for t, a, b in zip(h["time"], h["pm2_5"], h["pm10"])
@@ -25,6 +26,7 @@ def desde_api():
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--archivo"); p.add_argument("--api", action="store_true")
+    p.add_argument("--dias", type=int, default=2, help="con --api: cuantos dias reales recientes publicar (default 2, maximo 92)")
     p.add_argument("--desde", help="AAAA-MM-DDTHH:MM"); p.add_argument("--hasta")
     p.add_argument("--pausa", type=float, default=0.0)
     p.add_argument("--tardio", type=int, metavar="HORAS")
@@ -33,7 +35,7 @@ def main():
     a = p.parse_args()
     if not (a.archivo or a.api):
         p.error("indica --archivo o --api")
-    serie = leer_json(a.archivo) if a.archivo else desde_api()
+    serie = leer_json(a.archivo) if a.archivo else desde_api(a.dias)
     origen = "openmeteo-replay" if a.archivo else "openmeteo-cams"
     if a.desde: serie = [s for s in serie if s[0] >= a_ms(a.desde)]
     if a.hasta: serie = [s for s in serie if s[0] <= a_ms(a.hasta)]
